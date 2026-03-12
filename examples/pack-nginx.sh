@@ -10,7 +10,7 @@ mkdir -p "$OUTPUT_DIR"
 echo "==> If image pull fails, run manually:"
 echo "  docker pull bitnami/nginx:1.29.6"
 echo ""
-echo "==> Packing nginx (chart 15.14.0)..."
+echo "==> Packing nginx (chart 22.6.4)..."
 helm-airgap pack nginx \
   --repo-url https://charts.bitnami.com/bitnami \
   --repo-name bitnami \
