@@ -3,21 +3,21 @@
 
 . "$(dirname "$0")/config.sh"
 
-BUNDLE="${OUTPUT_DIR}/nginx-15.14.0-airgap.tar.gz"
+BUNDLE="${OUTPUT_DIR}/nginx-22.6.4-airgap.tar.gz"
 
 mkdir -p "$OUTPUT_DIR"
 
 echo "==> If image pull fails, run manually:"
-echo "  docker pull bitnami/nginx:1.25.3"
+echo "  docker pull bitnami/nginx:1.29.6"
 echo ""
 echo "==> Packing nginx (chart 15.14.0)..."
 helm-airgap pack nginx \
   --repo-url https://charts.bitnami.com/bitnami \
   --repo-name bitnami \
-  --chart-version 15.14.0 \
+  --chart-version 22.6.4 \
   --chart-dir "$CHART_DIR" \
-  --images-dir "$IMAGES_DIR/nginx-15.14.0" \
-  --include-image bitnami/nginx:1.25.3 \
+  --images-dir "$IMAGES_DIR/nginx-22.6.4" \
+  --include-image bitnami/nginx:1.29.6 \
   -o "$BUNDLE" \
   -v
 
