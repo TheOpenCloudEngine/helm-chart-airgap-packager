@@ -11,7 +11,7 @@ source "$(dirname "$0")/config.sh"
 
 BUNDLE="${OUTPUT_DIR}/prometheus-28.13.0-airgap.tar.gz"
 RELEASE="prometheus"
-NAMESPACE="monitoring"
+NAMESPACE="$NAMESPACE"
 
 echo "==> Bundle contents:"
 helm-airgap inspect "$BUNDLE"

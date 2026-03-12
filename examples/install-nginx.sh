@@ -11,7 +11,7 @@ source "$(dirname "$0")/config.sh"
 
 BUNDLE="${OUTPUT_DIR}/nginx-15.14.0-airgap.tar.gz"
 RELEASE="my-nginx"
-NAMESPACE="web"
+NAMESPACE="$NAMESPACE"
 
 # Inspect the bundle first
 echo "==> Bundle contents:"

@@ -11,7 +11,7 @@ source "$(dirname "$0")/config.sh"
 
 BUNDLE="${OUTPUT_DIR}/postgresql-15.5.38-airgap.tar.gz"
 RELEASE="postgresql"
-NAMESPACE="database"
+NAMESPACE="$NAMESPACE"
 
 echo "==> Bundle contents:"
 helm-airgap inspect "$BUNDLE"
