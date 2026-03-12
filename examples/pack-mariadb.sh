@@ -9,7 +9,7 @@
 #   - helm CLI installed
 #   - docker or podman installed and running
 
-source "./config.sh"
+. "$(dirname "$0")/config.sh"
 
 BUNDLE="${OUTPUT_DIR}/mariadb-11.5.7-airgap.tar.gz"
 

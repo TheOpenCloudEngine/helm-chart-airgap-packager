@@ -10,7 +10,7 @@
 #   - helm CLI installed (v3.8+ required for OCI support)
 #   - docker or podman installed and running
 
-source "./config.sh"
+. "$(dirname "$0")/config.sh"
 
 BUNDLE="${OUTPUT_DIR}/zookeeper-13.8.7-airgap.tar.gz"
 

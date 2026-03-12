@@ -17,7 +17,7 @@
 #   - helm CLI installed
 #   - docker or podman installed and running
 
-source "./config.sh"
+. "$(dirname "$0")/config.sh"
 
 BUNDLE="${OUTPUT_DIR}/prometheus-28.13.0-airgap.tar.gz"
 
