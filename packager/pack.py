@@ -32,6 +32,7 @@ def pack(
     chart: str,
     output: str,
     chart_version: Optional[str] = None,
+    chart_dir: str = "./charts",
     repo_url: Optional[str] = None,
     repo_name: Optional[str] = None,
     repo_username: Optional[str] = None,
@@ -51,6 +52,7 @@ def pack(
     chart         : Chart name (repo/chart), OCI ref, or path to local chart/.tgz
     output        : Output .tar.gz path (or directory – filename will be auto-generated)
     chart_version : Helm chart version to pull (optional)
+    chart_dir     : Directory where pulled chart .tgz files are saved (default: ./charts)
     repo_url      : Helm repo URL (used with repo_name for `helm repo add`)
     repo_name     : Alias for the Helm repo
     values_files  : List of extra values files for image extraction / helm template
@@ -68,10 +70,11 @@ def pack(
     if not skip_images:
         docker_utils.check_docker()
 
+    chart_dir = os.path.abspath(chart_dir)
+    os.makedirs(chart_dir, exist_ok=True)
+
     with tempfile.TemporaryDirectory(prefix="airgap-pack-") as tmpdir:
-        charts_dir = os.path.join(tmpdir, "charts")
         images_dir = os.path.join(tmpdir, "images")
-        os.makedirs(charts_dir)
         os.makedirs(images_dir)
 
         # ── 1. Fetch the Helm chart ──────────────────────────────────────────
@@ -80,13 +83,12 @@ def pack(
 
         if is_local:
             if chart.endswith(".tgz") or chart.endswith(".tar.gz"):
-                chart_tgz = chart
+                chart_tgz = os.path.abspath(chart)
                 chart_name = os.path.basename(chart).replace(".tgz", "").replace(".tar.gz", "")
             else:
-                # Local directory – package it first
-                result = _run_helm_package(chart, charts_dir)
-                chart_tgz = result
-                chart_name = os.path.basename(result).rsplit("-", 1)[0]
+                # Local directory – package it into chart_dir
+                chart_tgz = _run_helm_package(chart, chart_dir)
+                chart_name = os.path.basename(chart_tgz).rsplit("-", 1)[0]
         else:
             if repo_url and repo_name:
                 helm_utils.repo_add(
@@ -94,7 +96,7 @@ def pack(
                     username=repo_username, password=repo_password,
                 )
             chart_tgz = helm_utils.pull_chart(
-                chart, charts_dir,
+                chart, chart_dir,
                 version=chart_version,
                 repo_url=repo_url if not repo_name else None,
                 username=repo_username,
@@ -102,10 +104,8 @@ def pack(
             )
             chart_name = os.path.basename(chart_tgz).rsplit("-", 1)[0]
 
-        # Copy chart tgz into the bundle's charts/ dir
-        chart_tgz_in_bundle = os.path.join(charts_dir, os.path.basename(chart_tgz))
-        if os.path.abspath(chart_tgz) != os.path.abspath(chart_tgz_in_bundle):
-            shutil.copy2(chart_tgz, chart_tgz_in_bundle)
+        logger.info("Chart saved to: %s", chart_tgz)
+        chart_tgz_in_bundle = chart_tgz
 
         # ── 2. Discover images ───────────────────────────────────────────────
         images: list[str] = []
@@ -202,7 +202,7 @@ def pack(
         logger.info("Creating bundle archive: %s", output)
         with tarfile.open(output, "w:gz") as tar:
             tar.add(manifest_path, arcname=f"{bundle_dirname}/manifest.json")
-            tar.add(charts_dir, arcname=f"{bundle_dirname}/charts")
+            tar.add(chart_tgz_in_bundle, arcname=f"{bundle_dirname}/charts/{os.path.basename(chart_tgz_in_bundle)}")
             if not skip_images:
                 tar.add(images_dir, arcname=f"{bundle_dirname}/images")
 

@@ -7,10 +7,11 @@
 #   - kubectl configured to reach the cluster
 #   - A private registry running at myregistry.local:5000
 
-BUNDLE="./bundles/keycloak-25.2.0-airgap.tar.gz"
+source "$(dirname "$0")/config.sh"
+
+BUNDLE="${OUTPUT_DIR}/keycloak-25.2.0-airgap.tar.gz"
 RELEASE="keycloak"
 NAMESPACE="keycloak"
-REGISTRY="myregistry.local:5000"
 
 echo "==> Bundle contents:"
 helm-airgap inspect "$BUNDLE"

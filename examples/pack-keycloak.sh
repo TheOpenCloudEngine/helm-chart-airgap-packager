@@ -10,7 +10,8 @@
 #   - helm CLI installed (v3.8+ required for OCI support)
 #   - docker or podman installed and running
 
-OUTPUT_DIR="./bundles"
+source "$(dirname "$0")/config.sh"
+
 BUNDLE="${OUTPUT_DIR}/keycloak-25.2.0-airgap.tar.gz"
 
 mkdir -p "$OUTPUT_DIR"
@@ -18,6 +19,7 @@ mkdir -p "$OUTPUT_DIR"
 echo "==> Packing Keycloak 26.3.3 (chart 25.2.0, OCI)..."
 helm-airgap pack oci://registry-1.docker.io/bitnamicharts/keycloak \
   --chart-version 25.2.0 \
+  --chart-dir "$CHART_DIR" \
   -o "$BUNDLE" \
   -v
 

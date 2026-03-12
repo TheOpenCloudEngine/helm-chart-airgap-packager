@@ -9,7 +9,8 @@
 #   - helm CLI installed
 #   - docker or podman installed and running
 
-OUTPUT_DIR="./bundles"
+source "$(dirname "$0")/config.sh"
+
 BUNDLE="${OUTPUT_DIR}/mariadb-11.5.7-airgap.tar.gz"
 
 mkdir -p "$OUTPUT_DIR"
@@ -19,6 +20,7 @@ helm-airgap pack mariadb \
   --repo-url https://charts.bitnami.com/bitnami \
   --repo-name bitnami \
   --chart-version 11.5.7 \
+  --chart-dir "$CHART_DIR" \
   -o "$BUNDLE" \
   -v
 

@@ -17,7 +17,8 @@
 #   - helm CLI installed
 #   - docker or podman installed and running
 
-OUTPUT_DIR="./bundles"
+source "$(dirname "$0")/config.sh"
+
 BUNDLE="${OUTPUT_DIR}/prometheus-28.13.0-airgap.tar.gz"
 
 mkdir -p "$OUTPUT_DIR"
@@ -27,6 +28,7 @@ helm-airgap pack prometheus \
   --repo-url https://prometheus-community.github.io/helm-charts \
   --repo-name prometheus-community \
   --chart-version 28.13.0 \
+  --chart-dir "$CHART_DIR" \
   -o "$BUNDLE" \
   -v
 

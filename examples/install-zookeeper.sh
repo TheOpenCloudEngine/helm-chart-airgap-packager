@@ -7,10 +7,11 @@
 #   - kubectl configured to reach the cluster
 #   - A private registry running at myregistry.local:5000
 
-BUNDLE="./bundles/zookeeper-13.8.7-airgap.tar.gz"
+source "$(dirname "$0")/config.sh"
+
+BUNDLE="${OUTPUT_DIR}/zookeeper-13.8.7-airgap.tar.gz"
 RELEASE="zookeeper"
 NAMESPACE="zookeeper"
-REGISTRY="myregistry.local:5000"
 
 echo "==> Bundle contents:"
 helm-airgap inspect "$BUNDLE"

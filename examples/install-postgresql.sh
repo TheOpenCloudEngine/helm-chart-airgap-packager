@@ -7,10 +7,11 @@
 #   - kubectl configured to reach the cluster
 #   - A private registry running at myregistry.local:5000
 
-BUNDLE="./bundles/postgresql-15.5.38-airgap.tar.gz"
+source "$(dirname "$0")/config.sh"
+
+BUNDLE="${OUTPUT_DIR}/postgresql-15.5.38-airgap.tar.gz"
 RELEASE="postgresql"
 NAMESPACE="database"
-REGISTRY="myregistry.local:5000"
 
 echo "==> Bundle contents:"
 helm-airgap inspect "$BUNDLE"

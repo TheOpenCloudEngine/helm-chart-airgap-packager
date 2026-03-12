@@ -7,10 +7,11 @@
 #   - kubectl configured to reach the cluster
 #   - A private registry running at myregistry.local:5000
 
-BUNDLE="./bundles/nginx-15.14.0-airgap.tar.gz"
+source "$(dirname "$0")/config.sh"
+
+BUNDLE="${OUTPUT_DIR}/nginx-15.14.0-airgap.tar.gz"
 RELEASE="my-nginx"
 NAMESPACE="web"
-REGISTRY="myregistry.local:5000"
 
 # Inspect the bundle first
 echo "==> Bundle contents:"

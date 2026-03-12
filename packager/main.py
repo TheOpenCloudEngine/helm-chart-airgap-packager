@@ -67,6 +67,8 @@ def cli(ctx: click.Context) -> None:
               help="Explicitly add an image to the bundle (repeatable).")
 @click.option("--exclude-image", "exclude_images", multiple=True, metavar="PATTERN",
               help="Exclude images matching this substring (repeatable).")
+@click.option("--chart-dir", default="./charts", show_default=True, metavar="PATH",
+              help="Directory where pulled chart .tgz files are saved.")
 @click.option("-v", "--verbose", is_flag=True, default=False, help="Enable debug logging.")
 @click.pass_context
 def pack_cmd(
@@ -83,6 +85,7 @@ def pack_cmd(
     skip_images: bool,
     include_images: tuple,
     exclude_images: tuple,
+    chart_dir: str,
     verbose: bool,
 ) -> None:
     """
@@ -103,6 +106,7 @@ def pack_cmd(
             chart=chart,
             output=output,
             chart_version=chart_version or None,
+            chart_dir=chart_dir,
             repo_url=repo_url or None,
             repo_name=repo_name or None,
             repo_username=repo_username or None,

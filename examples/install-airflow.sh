@@ -7,10 +7,11 @@
 #   - kubectl configured to reach the cluster
 #   - A private registry running at myregistry.local:5000
 
-BUNDLE="./bundles/airflow-1.19.0-airgap.tar.gz"
+source "$(dirname "$0")/config.sh"
+
+BUNDLE="${OUTPUT_DIR}/airflow-1.19.0-airgap.tar.gz"
 RELEASE="airflow"
 NAMESPACE="airflow"
-REGISTRY="myregistry.local:5000"
 
 echo "==> Bundle contents:"
 helm-airgap inspect "$BUNDLE"

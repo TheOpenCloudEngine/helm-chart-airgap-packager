@@ -9,7 +9,8 @@
 #   - helm CLI installed
 #   - docker or podman installed and running
 
-OUTPUT_DIR="./bundles"
+source "$(dirname "$0")/config.sh"
+
 BUNDLE="${OUTPUT_DIR}/airflow-1.19.0-airgap.tar.gz"
 
 mkdir -p "$OUTPUT_DIR"
@@ -19,6 +20,7 @@ helm-airgap pack airflow \
   --repo-url https://airflow.apache.org/ \
   --repo-name apache-airflow \
   --chart-version 1.19.0 \
+  --chart-dir "$CHART_DIR" \
   -o "$BUNDLE" \
   -v
 
