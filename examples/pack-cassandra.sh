@@ -20,7 +20,7 @@ echo "==> Packing Apache Cassandra 5.0.5 (chart 12.3.11, OCI)..."
 helm-airgap pack oci://registry-1.docker.io/bitnamicharts/cassandra \
   --chart-version 12.3.11 \
   --chart-dir "$CHART_DIR" \
-  --images-dir "$IMAGES_DIR" \
+  --images-dir "$IMAGES_DIR/cassandra-12.3.11" \
   --include-image bitnami/cassandra:5.0.5 \
   --include-image bitnami/os-shell:12 \
   -o "$BUNDLE" \

@@ -20,7 +20,7 @@ echo "==> Packing Grafana 12.1.1 (chart 12.1.8, OCI)..."
 helm-airgap pack oci://registry-1.docker.io/bitnamicharts/grafana \
   --chart-version 12.1.8 \
   --chart-dir "$CHART_DIR" \
-  --images-dir "$IMAGES_DIR" \
+  --images-dir "$IMAGES_DIR/grafana-12.1.8" \
   --include-image bitnami/grafana:12.1.1 \
   --include-image bitnami/os-shell:12 \
   -o "$BUNDLE" \

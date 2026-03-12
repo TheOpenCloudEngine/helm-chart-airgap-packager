@@ -29,7 +29,7 @@ helm-airgap pack prometheus \
   --repo-name prometheus-community \
   --chart-version 28.13.0 \
   --chart-dir "$CHART_DIR" \
-  --images-dir "$IMAGES_DIR" \
+  --images-dir "$IMAGES_DIR/prometheus-28.13.0" \
   --include-image quay.io/prometheus/prometheus:v3.10.0 \
   --include-image quay.io/prometheus/alertmanager:v0.28.1 \
   --include-image quay.io/prometheus/node-exporter:v1.9.1 \
