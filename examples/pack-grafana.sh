@@ -16,6 +16,10 @@ BUNDLE="${OUTPUT_DIR}/grafana-12.1.8-airgap.tar.gz"
 
 mkdir -p "$OUTPUT_DIR"
 
+echo "==> If image pull fails, run manually:"
+echo "  docker pull bitnami/grafana:12.1.1"
+echo "  docker pull bitnami/os-shell:12"
+echo ""
 echo "==> Packing Grafana 12.1.1 (chart 12.1.8, OCI)..."
 helm-airgap pack oci://registry-1.docker.io/bitnamicharts/grafana \
   --chart-version 12.1.8 \

@@ -15,6 +15,10 @@ BUNDLE="${OUTPUT_DIR}/postgresql-15.5.38-airgap.tar.gz"
 
 mkdir -p "$OUTPUT_DIR"
 
+echo "==> If image pull fails, run manually:"
+echo "  docker pull bitnami/postgresql:16.4.0"
+echo "  docker pull bitnami/os-shell:12"
+echo ""
 echo "==> Packing PostgreSQL 16.4.0 (chart 15.5.38)..."
 helm-airgap pack postgresql \
   --repo-url https://charts.bitnami.com/bitnami \

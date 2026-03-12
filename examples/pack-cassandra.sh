@@ -16,6 +16,10 @@ BUNDLE="${OUTPUT_DIR}/cassandra-12.3.11-airgap.tar.gz"
 
 mkdir -p "$OUTPUT_DIR"
 
+echo "==> If image pull fails, run manually:"
+echo "  docker pull bitnami/cassandra:5.0.5"
+echo "  docker pull bitnami/os-shell:12"
+echo ""
 echo "==> Packing Apache Cassandra 5.0.5 (chart 12.3.11, OCI)..."
 helm-airgap pack oci://registry-1.docker.io/bitnamicharts/cassandra \
   --chart-version 12.3.11 \

@@ -16,6 +16,10 @@ BUNDLE="${OUTPUT_DIR}/zookeeper-13.8.7-airgap.tar.gz"
 
 mkdir -p "$OUTPUT_DIR"
 
+echo "==> If image pull fails, run manually:"
+echo "  docker pull bitnami/zookeeper:3.9.3"
+echo "  docker pull bitnami/os-shell:12"
+echo ""
 echo "==> Packing Apache ZooKeeper 3.9.3 (chart 13.8.7, OCI)..."
 helm-airgap pack oci://registry-1.docker.io/bitnamicharts/zookeeper \
   --chart-version 13.8.7 \

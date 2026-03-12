@@ -15,6 +15,11 @@ BUNDLE="${OUTPUT_DIR}/airflow-1.19.0-airgap.tar.gz"
 
 mkdir -p "$OUTPUT_DIR"
 
+echo "==> If image pull fails, run manually:"
+echo "  docker pull apache/airflow:3.1.7"
+echo "  docker pull bitnami/postgresql:16.4.0"
+echo "  docker pull bitnami/redis:7.4.2"
+echo ""
 echo "==> Packing Apache Airflow 3.1.7 (chart 1.19.0)..."
 helm-airgap pack airflow \
   --repo-url https://airflow.apache.org/ \

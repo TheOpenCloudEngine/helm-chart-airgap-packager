@@ -15,6 +15,10 @@ BUNDLE="${OUTPUT_DIR}/mariadb-11.5.7-airgap.tar.gz"
 
 mkdir -p "$OUTPUT_DIR"
 
+echo "==> If image pull fails, run manually:"
+echo "  docker pull bitnami/mariadb:10.6.12"
+echo "  docker pull bitnami/os-shell:12"
+echo ""
 echo "==> Packing MariaDB 10.6.12 (chart 11.5.7)..."
 helm-airgap pack mariadb \
   --repo-url https://charts.bitnami.com/bitnami \

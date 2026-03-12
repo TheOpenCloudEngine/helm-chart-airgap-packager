@@ -16,6 +16,10 @@ BUNDLE="${OUTPUT_DIR}/keycloak-25.2.0-airgap.tar.gz"
 
 mkdir -p "$OUTPUT_DIR"
 
+echo "==> If image pull fails, run manually:"
+echo "  docker pull bitnami/keycloak:26.3.3"
+echo "  docker pull bitnami/os-shell:12"
+echo ""
 echo "==> Packing Keycloak 26.3.3 (chart 25.2.0, OCI)..."
 helm-airgap pack oci://registry-1.docker.io/bitnamicharts/keycloak \
   --chart-version 25.2.0 \
