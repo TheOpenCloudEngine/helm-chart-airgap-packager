@@ -95,8 +95,16 @@ def pack(
                     repo_name, repo_url,
                     username=repo_username, password=repo_password,
                 )
+            # When a repo alias was added, helm pull requires "repo_name/chart".
+            # OCI refs and already-qualified refs (containing '/') are passed as-is.
+            is_oci = chart.startswith("oci://")
+            is_qualified = "/" in chart
+            if repo_name and not is_oci and not is_qualified:
+                chart_ref = f"{repo_name}/{chart}"
+            else:
+                chart_ref = chart
             chart_tgz = helm_utils.pull_chart(
-                chart, chart_dir,
+                chart_ref, chart_dir,
                 version=chart_version,
                 repo_url=repo_url if not repo_name else None,
                 username=repo_username,
