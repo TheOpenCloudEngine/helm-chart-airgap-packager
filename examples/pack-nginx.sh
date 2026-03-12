@@ -13,7 +13,7 @@ helm-airgap pack nginx \
   --repo-name bitnami \
   --chart-version 15.14.0 \
   --chart-dir "$CHART_DIR" \
-  --images-dir "$IMAGES_DIR" \
+  --images-dir "$IMAGES_DIR/nginx-15.14.0" \
   --include-image bitnami/nginx:1.25.3 \
   -o "$BUNDLE" \
   -v
