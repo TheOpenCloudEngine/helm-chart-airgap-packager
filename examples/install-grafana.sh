@@ -6,7 +6,6 @@
 #   - docker or podman installed and running
 #   - kubectl configured to reach the cluster
 #   - A private registry running at myregistry.local:5000
-set -euo pipefail
 
 BUNDLE="./bundles/grafana-12.1.8-airgap.tar.gz"
 RELEASE="grafana"

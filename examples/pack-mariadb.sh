@@ -8,7 +8,6 @@
 # Prerequisites:
 #   - helm CLI installed
 #   - docker or podman installed and running
-set -euo pipefail
 
 OUTPUT_DIR="./bundles"
 BUNDLE="${OUTPUT_DIR}/mariadb-11.5.7-airgap.tar.gz"

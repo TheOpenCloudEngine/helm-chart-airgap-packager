@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Example: Pack bitnami/nginx chart from the official Bitnami repo
-set -euo pipefail
 
 helm-airgap pack nginx \
   --repo-url https://charts.bitnami.com/bitnami \
