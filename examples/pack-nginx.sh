@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Example: Pack bitnami/nginx chart from the official Bitnami repo
 
-. "$(dirname "${BASH_SOURCE[0]:-$0}")/config.sh"
+. "$(dirname "$0")/config.sh"
 
 BUNDLE="${OUTPUT_DIR}/nginx-15.14.0-airgap.tar.gz"
 

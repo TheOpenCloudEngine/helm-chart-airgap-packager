@@ -9,7 +9,7 @@
 #   - helm CLI installed
 #   - docker or podman installed and running
 
-. "$(dirname "${BASH_SOURCE[0]:-$0}")/config.sh"
+. "$(dirname "$0")/config.sh"
 
 BUNDLE="${OUTPUT_DIR}/airflow-1.19.0-airgap.tar.gz"
 

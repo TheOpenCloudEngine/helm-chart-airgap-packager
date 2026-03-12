@@ -9,7 +9,7 @@
 #   - helm CLI installed
 #   - docker or podman installed and running
 
-. "$(dirname "${BASH_SOURCE[0]:-$0}")/config.sh"
+. "$(dirname "$0")/config.sh"
 
 BUNDLE="${OUTPUT_DIR}/postgresql-15.5.38-airgap.tar.gz"
 

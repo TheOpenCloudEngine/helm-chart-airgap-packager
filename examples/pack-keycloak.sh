@@ -10,7 +10,7 @@
 #   - helm CLI installed (v3.8+ required for OCI support)
 #   - docker or podman installed and running
 
-. "$(dirname "${BASH_SOURCE[0]:-$0}")/config.sh"
+. "$(dirname "$0")/config.sh"
 
 BUNDLE="${OUTPUT_DIR}/keycloak-25.2.0-airgap.tar.gz"
 
