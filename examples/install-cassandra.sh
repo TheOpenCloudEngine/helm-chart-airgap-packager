@@ -6,12 +6,12 @@
 #   - docker or podman installed and running
 #   - kubectl configured to reach the cluster
 #   - A private registry running at myregistry.local:5000
-set -euo pipefail
 
-BUNDLE="./bundles/cassandra-12.3.11-airgap.tar.gz"
+source "$(dirname "$0")/config.sh"
+
+BUNDLE="${OUTPUT_DIR}/cassandra-12.3.11-airgap.tar.gz"
 RELEASE="cassandra"
 NAMESPACE="database"
-REGISTRY="myregistry.local:5000"
 
 echo "==> Bundle contents:"
 helm-airgap inspect "$BUNDLE"

@@ -8,9 +8,9 @@
 # Prerequisites:
 #   - helm CLI installed
 #   - docker or podman installed and running
-set -euo pipefail
 
-OUTPUT_DIR="./bundles"
+source "$(dirname "$0")/config.sh"
+
 BUNDLE="${OUTPUT_DIR}/airflow-1.19.0-airgap.tar.gz"
 
 mkdir -p "$OUTPUT_DIR"
@@ -20,6 +20,11 @@ helm-airgap pack airflow \
   --repo-url https://airflow.apache.org/ \
   --repo-name apache-airflow \
   --chart-version 1.19.0 \
+  --chart-dir "$CHART_DIR" \
+  --images-dir "$IMAGES_DIR" \
+  --include-image apache/airflow:3.1.7 \
+  --include-image bitnami/postgresql:16.4.0 \
+  --include-image bitnami/redis:7.4.2 \
   -o "$BUNDLE" \
   -v
 

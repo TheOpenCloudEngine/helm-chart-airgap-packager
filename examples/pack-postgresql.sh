@@ -8,9 +8,9 @@
 # Prerequisites:
 #   - helm CLI installed
 #   - docker or podman installed and running
-set -euo pipefail
 
-OUTPUT_DIR="./bundles"
+source "$(dirname "$0")/config.sh"
+
 BUNDLE="${OUTPUT_DIR}/postgresql-15.5.38-airgap.tar.gz"
 
 mkdir -p "$OUTPUT_DIR"
@@ -20,6 +20,10 @@ helm-airgap pack postgresql \
   --repo-url https://charts.bitnami.com/bitnami \
   --repo-name bitnami \
   --chart-version 15.5.38 \
+  --chart-dir "$CHART_DIR" \
+  --images-dir "$IMAGES_DIR" \
+  --include-image bitnami/postgresql:16.4.0 \
+  --include-image bitnami/os-shell:12 \
   -o "$BUNDLE" \
   -v
 

@@ -1,0 +1,20 @@
+# Python build artifacts
+build/
+dist/
+*.egg-info/
+__pycache__/
+*.pyc
+*.pyo
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Airgap bundles (generated output)
+bundles/
+
+# IDE
+.idea/
+.vscode/

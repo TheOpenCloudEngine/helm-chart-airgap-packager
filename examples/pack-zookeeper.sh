@@ -9,9 +9,9 @@
 # Prerequisites:
 #   - helm CLI installed (v3.8+ required for OCI support)
 #   - docker or podman installed and running
-set -euo pipefail
 
-OUTPUT_DIR="./bundles"
+source "$(dirname "$0")/config.sh"
+
 BUNDLE="${OUTPUT_DIR}/zookeeper-13.8.7-airgap.tar.gz"
 
 mkdir -p "$OUTPUT_DIR"
@@ -19,6 +19,10 @@ mkdir -p "$OUTPUT_DIR"
 echo "==> Packing Apache ZooKeeper 3.9.3 (chart 13.8.7, OCI)..."
 helm-airgap pack oci://registry-1.docker.io/bitnamicharts/zookeeper \
   --chart-version 13.8.7 \
+  --chart-dir "$CHART_DIR" \
+  --images-dir "$IMAGES_DIR" \
+  --include-image bitnami/zookeeper:3.9.3 \
+  --include-image bitnami/os-shell:12 \
   -o "$BUNDLE" \
   -v
 

@@ -25,9 +25,8 @@ def _setup_logging(verbose: bool) -> None:
 
 @click.group(context_settings={"help_option_names": ["-h", "--help"]})
 @click.version_option(__version__, "-V", "--version")
-@click.option("-v", "--verbose", is_flag=True, default=False, help="Enable debug logging.")
 @click.pass_context
-def cli(ctx: click.Context, verbose: bool) -> None:
+def cli(ctx: click.Context) -> None:
     """
     helm-airgap-packager – Bundle Helm charts and Docker images for airgap deployment.
 
@@ -40,8 +39,6 @@ def cli(ctx: click.Context, verbose: bool) -> None:
       helm-airgap install nginx-bundle.tar.gz my-nginx --registry myregistry.local:5000
     """
     ctx.ensure_object(dict)
-    ctx.obj["verbose"] = verbose
-    _setup_logging(verbose)
 
 
 # ── pack command ─────────────────────────────────────────────────────────────
@@ -70,6 +67,11 @@ def cli(ctx: click.Context, verbose: bool) -> None:
               help="Explicitly add an image to the bundle (repeatable).")
 @click.option("--exclude-image", "exclude_images", multiple=True, metavar="PATTERN",
               help="Exclude images matching this substring (repeatable).")
+@click.option("--chart-dir", default="./charts", show_default=True, metavar="PATH",
+              help="Directory where pulled chart .tgz files are saved.")
+@click.option("--images-dir", default="./images", show_default=True, metavar="PATH",
+              help="Directory where docker-saved image .tar files are stored.")
+@click.option("-v", "--verbose", is_flag=True, default=False, help="Enable debug logging.")
 @click.pass_context
 def pack_cmd(
     ctx: click.Context,
@@ -85,6 +87,9 @@ def pack_cmd(
     skip_images: bool,
     include_images: tuple,
     exclude_images: tuple,
+    chart_dir: str,
+    images_dir: str,
+    verbose: bool,
 ) -> None:
     """
     Pack a Helm chart and its Docker images into an airgap bundle.
@@ -97,11 +102,15 @@ def pack_cmd(
       - A local .tgz archive:                       ./my-chart-1.0.0.tgz
       - An OCI reference:                           oci://registry.example.com/charts/nginx
     """
+    _setup_logging(verbose)
+    ctx.obj["verbose"] = verbose
     try:
         bundle = pack_module.pack(
             chart=chart,
             output=output,
             chart_version=chart_version or None,
+            chart_dir=chart_dir,
+            images_dir=images_dir,
             repo_url=repo_url or None,
             repo_name=repo_name or None,
             repo_username=repo_username or None,
@@ -145,6 +154,7 @@ def pack_cmd(
               help="Do not pass --create-namespace to Helm.")
 @click.option("--wait", is_flag=True, default=False,
               help="Pass --wait to Helm (blocks until rollout completes).")
+@click.option("-v", "--verbose", is_flag=True, default=False, help="Enable debug logging.")
 @click.pass_context
 def install_cmd(
     ctx: click.Context,
@@ -160,6 +170,7 @@ def install_cmd(
     skip_helm: bool,
     no_create_namespace: bool,
     wait: bool,
+    verbose: bool,
 ) -> None:
     """
     Install a Helm chart from an airgap bundle.
@@ -168,6 +179,8 @@ def install_cmd(
     BUNDLE      : Path to the .tar.gz bundle created by `pack`
     RELEASE_NAME: Helm release name to use
     """
+    _setup_logging(verbose)
+    ctx.obj["verbose"] = verbose
     try:
         install_module.install(
             bundle_path=bundle,
@@ -195,13 +208,15 @@ def install_cmd(
 @cli.command("inspect")
 @click.argument("bundle")
 @click.option("--json", "as_json", is_flag=True, default=False, help="Output raw JSON manifest.")
-def inspect_cmd(bundle: str, as_json: bool) -> None:
+@click.option("-v", "--verbose", is_flag=True, default=False, help="Enable debug logging.")
+def inspect_cmd(bundle: str, as_json: bool, verbose: bool) -> None:
     """
     Inspect the contents of an airgap bundle without installing.
 
     \b
     BUNDLE : Path to the .tar.gz bundle
     """
+    _setup_logging(verbose)
     try:
         manifest = install_module.list_bundle_contents(bundle)
     except Exception as e:

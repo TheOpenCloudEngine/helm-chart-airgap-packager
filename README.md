@@ -31,8 +31,61 @@ helm-airgap pack          →  번들 전송  →  helm-airgap install
 ### 요구사항
 
 - Python 3.10+
-- [Helm](https://helm.sh/docs/intro/install/) CLI
+- Helm CLI (설치 방법은 아래 참고)
 - Docker 또는 Podman (이미지 패키징 시)
+
+### Helm 설치
+
+#### Linux
+
+```bash
+# 공식 설치 스크립트 (권장)
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+# 특정 버전 설치
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | DESIRED_VERSION=v3.17.0 bash
+```
+
+패키지 매니저를 사용할 수도 있습니다.
+
+```bash
+# apt (Debian/Ubuntu)
+curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+sudo apt-get update && sudo apt-get install helm
+
+# dnf (RHEL/Fedora/Rocky)
+sudo dnf install helm
+
+# yum (CentOS/RHEL 7)
+sudo yum install helm
+```
+
+#### macOS
+
+```bash
+brew install helm
+```
+
+#### Windows
+
+```powershell
+# Chocolatey
+choco install kubernetes-helm
+
+# Scoop
+scoop install helm
+
+# winget
+winget install Helm.Helm
+```
+
+#### 설치 확인
+
+```bash
+helm version
+# version.BuildInfo{Version:"v3.x.x", ...}
+```
 
 ### pip 설치
 
