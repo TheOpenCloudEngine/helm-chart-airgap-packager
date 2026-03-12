@@ -20,6 +20,8 @@ echo "==> Packing Apache ZooKeeper 3.9.3 (chart 13.8.7, OCI)..."
 helm-airgap pack oci://registry-1.docker.io/bitnamicharts/zookeeper \
   --chart-version 13.8.7 \
   --chart-dir "$CHART_DIR" \
+  --include-image bitnami/zookeeper:3.9.3 \
+  --include-image bitnami/os-shell:12 \
   -o "$BUNDLE" \
   -v
 

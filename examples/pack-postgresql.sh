@@ -21,6 +21,8 @@ helm-airgap pack postgresql \
   --repo-name bitnami \
   --chart-version 15.5.38 \
   --chart-dir "$CHART_DIR" \
+  --include-image bitnami/postgresql:16.4.0 \
+  --include-image bitnami/os-shell:12 \
   -o "$BUNDLE" \
   -v
 

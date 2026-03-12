@@ -8,6 +8,7 @@ helm-airgap pack nginx \
   --repo-name bitnami \
   --chart-version 15.14.0 \
   --chart-dir "$CHART_DIR" \
+  --include-image bitnami/nginx:1.25.3 \
   -o ./bundles/nginx-15.14.0-airgap.tar.gz \
   -v
 

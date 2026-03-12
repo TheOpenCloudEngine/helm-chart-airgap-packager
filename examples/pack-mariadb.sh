@@ -21,6 +21,8 @@ helm-airgap pack mariadb \
   --repo-name bitnami \
   --chart-version 11.5.7 \
   --chart-dir "$CHART_DIR" \
+  --include-image bitnami/mariadb:10.6.12 \
+  --include-image bitnami/os-shell:12 \
   -o "$BUNDLE" \
   -v
 

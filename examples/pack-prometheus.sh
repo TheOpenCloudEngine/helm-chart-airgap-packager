@@ -29,6 +29,11 @@ helm-airgap pack prometheus \
   --repo-name prometheus-community \
   --chart-version 28.13.0 \
   --chart-dir "$CHART_DIR" \
+  --include-image quay.io/prometheus/prometheus:v3.10.0 \
+  --include-image quay.io/prometheus/alertmanager:v0.28.1 \
+  --include-image quay.io/prometheus/node-exporter:v1.9.1 \
+  --include-image registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.15.0 \
+  --include-image quay.io/prometheus/pushgateway:v1.11.0 \
   -o "$BUNDLE" \
   -v
 
