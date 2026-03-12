@@ -21,6 +21,7 @@ helm-airgap pack airflow \
   --repo-name apache-airflow \
   --chart-version 1.19.0 \
   --chart-dir "$CHART_DIR" \
+  --images-dir "$IMAGES_DIR" \
   --include-image apache/airflow:3.1.7 \
   --include-image bitnami/postgresql:16.4.0 \
   --include-image bitnami/redis:7.4.2 \

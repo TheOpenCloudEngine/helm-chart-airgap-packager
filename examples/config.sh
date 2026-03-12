@@ -15,5 +15,8 @@ NAMESPACE="default"
 # Directory where downloaded Helm chart .tgz files are saved.
 CHART_DIR="./charts"
 
+# Directory where docker save image .tar files are saved.
+IMAGES_DIR="./images"
+
 # Directory where airgap bundle .tar.gz files are saved.
 OUTPUT_DIR="./bundles"

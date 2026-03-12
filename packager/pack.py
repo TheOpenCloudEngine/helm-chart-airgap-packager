@@ -33,6 +33,7 @@ def pack(
     output: str,
     chart_version: Optional[str] = None,
     chart_dir: str = "./charts",
+    images_dir: str = "./images",
     repo_url: Optional[str] = None,
     repo_name: Optional[str] = None,
     repo_username: Optional[str] = None,
@@ -53,6 +54,7 @@ def pack(
     output        : Output .tar.gz path (or directory – filename will be auto-generated)
     chart_version : Helm chart version to pull (optional)
     chart_dir     : Directory where pulled chart .tgz files are saved (default: ./charts)
+    images_dir    : Directory where docker-saved image .tar files are stored (default: ./images)
     repo_url      : Helm repo URL (used with repo_name for `helm repo add`)
     repo_name     : Alias for the Helm repo
     values_files  : List of extra values files for image extraction / helm template
@@ -73,9 +75,12 @@ def pack(
     chart_dir = os.path.abspath(chart_dir or "./charts")
     os.makedirs(chart_dir, exist_ok=True)
 
+    images_dir = os.path.abspath(images_dir or "./images")
+    if not skip_images:
+        os.makedirs(images_dir, exist_ok=True)
+        logger.info("Images directory: %s", images_dir)
+
     with tempfile.TemporaryDirectory(prefix="airgap-pack-") as tmpdir:
-        images_dir = os.path.join(tmpdir, "images")
-        os.makedirs(images_dir)
 
         # ── 1. Fetch the Helm chart ──────────────────────────────────────────
         logger.info("Fetching chart: %s", chart)

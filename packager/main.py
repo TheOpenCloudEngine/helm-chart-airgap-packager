@@ -69,6 +69,8 @@ def cli(ctx: click.Context) -> None:
               help="Exclude images matching this substring (repeatable).")
 @click.option("--chart-dir", default="./charts", show_default=True, metavar="PATH",
               help="Directory where pulled chart .tgz files are saved.")
+@click.option("--images-dir", default="./images", show_default=True, metavar="PATH",
+              help="Directory where docker-saved image .tar files are stored.")
 @click.option("-v", "--verbose", is_flag=True, default=False, help="Enable debug logging.")
 @click.pass_context
 def pack_cmd(
@@ -86,6 +88,7 @@ def pack_cmd(
     include_images: tuple,
     exclude_images: tuple,
     chart_dir: str,
+    images_dir: str,
     verbose: bool,
 ) -> None:
     """
@@ -107,6 +110,7 @@ def pack_cmd(
             output=output,
             chart_version=chart_version or None,
             chart_dir=chart_dir,
+            images_dir=images_dir,
             repo_url=repo_url or None,
             repo_name=repo_name or None,
             repo_username=repo_username or None,
