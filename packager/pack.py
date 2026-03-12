@@ -70,7 +70,7 @@ def pack(
     if not skip_images:
         docker_utils.check_docker()
 
-    chart_dir = os.path.abspath(chart_dir)
+    chart_dir = os.path.abspath(chart_dir or "./charts")
     os.makedirs(chart_dir, exist_ok=True)
 
     with tempfile.TemporaryDirectory(prefix="airgap-pack-") as tmpdir:
