@@ -1,27 +1,14 @@
 #!/usr/bin/env bash
 # Load CloudNativePG operator 1.28.1 airgap bundle images into minikube
-# (Run install-postgresql-minikube.sh to install after loading)
+# (Run install-postgresql-operator-minikube.sh to install after loading)
 #
 # Usage:
-#   ./load-postgresql-minikube.sh
+#   ./load-postgresql-operator-minikube.sh
 #
 # Prerequisites:
 #   - minikube running (minikube start)
 #   - helm CLI installed
-#   - Bundle created by pack-postgresql.sh
-#
-# Note: This installs the CloudNativePG operator.
-#       After installation, create a PostgreSQL cluster with a Cluster CRD, e.g.:
-#         kubectl apply -f - <<EOF
-#         apiVersion: postgresql.cnpg.io/v1
-#         kind: Cluster
-#         metadata:
-#           name: my-postgres
-#         spec:
-#           instances: 1
-#           storage:
-#             size: 1Gi
-#         EOF
+#   - Bundle created by pack-postgresql-operator.sh
 
 set -euo pipefail
 
@@ -37,7 +24,7 @@ fi
 
 if [ ! -f "$BUNDLE" ]; then
   echo "ERROR: Bundle not found: $BUNDLE"
-  echo "       Run pack-postgresql.sh first."
+  echo "       Run pack-postgresql-operator.sh first."
   exit 1
 fi
 
@@ -75,4 +62,4 @@ cp "$CHART_TGZ" "$CHART_DIR/"
 echo ""
 echo "==> Chart saved to: $CHART_DIR/$(basename "$CHART_TGZ")"
 echo ""
-echo "Run ./install-postgresql-minikube.sh to install."
+echo "Run ./install-postgresql-operator-minikube.sh to install."
