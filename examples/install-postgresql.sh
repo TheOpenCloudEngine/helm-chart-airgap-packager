@@ -9,7 +9,7 @@
 
 source "$(dirname "$0")/config.sh"
 
-BUNDLE="${OUTPUT_DIR}/postgresql-15.5.38-airgap.tar.gz"
+BUNDLE="${OUTPUT_DIR}/postgresql-17-0.27.1-airgap.tar.gz"
 RELEASE="postgresql"
 NAMESPACE="shared-apps"
 
