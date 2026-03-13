@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Load Keycloak 26.5.5 airgap bundle images into minikube and install
+# Load Keycloak 26.5.5 airgap bundle images into minikube
+# (Run install-keycloak-minikube.sh to install after loading)
 #
 # Usage:
 #   ./load-keycloak-minikube.sh
@@ -18,8 +19,6 @@ set -euo pipefail
 . "$(dirname "$0")/config.sh"
 
 BUNDLE="${OUTPUT_DIR}/keycloak-7.1.9-airgap.tar.gz"
-RELEASE="keycloak"
-NAMESPACE="shared-apps"
 
 # ── Preflight ─────────────────────────────────────────────────────────────────
 if ! minikube status --format='{{.Host}}' 2>/dev/null | grep -q "Running"; then
@@ -54,34 +53,17 @@ for img_tar in "$IMAGES_DIR"/*.tar; do
 done
 echo "    Images loaded."
 
-# ── Locate chart ──────────────────────────────────────────────────────────────
+# ── Save chart to CHART_DIR ───────────────────────────────────────────────────
 CHART_TGZ=$(find "$CHARTS_DIR" -name "*.tgz" | head -1)
 if [ -z "$CHART_TGZ" ]; then
   echo "ERROR: No chart .tgz found in bundle"
   exit 1
 fi
 
-# ── Helm install ──────────────────────────────────────────────────────────────
-echo ""
-echo "==> Installing Keycloak (release: $RELEASE, namespace: $NAMESPACE)..."
-helm upgrade --install "$RELEASE" "$CHART_TGZ" \
-  --namespace "$NAMESPACE" \
-  --create-namespace \
-  --set "image.pullPolicy=IfNotPresent" \
-  --set "command[0]=start-dev" \
-  --set "args=null" \
-  --wait
+mkdir -p "$CHART_DIR"
+cp "$CHART_TGZ" "$CHART_DIR/"
 
 echo ""
-echo "Done! Keycloak release '$RELEASE' deployed in namespace '$NAMESPACE'."
+echo "==> Chart saved to: $CHART_DIR/$(basename "$CHART_TGZ")"
 echo ""
-echo "Access Keycloak Admin Console:"
-echo "  kubectl port-forward svc/${RELEASE}-http 8080:80 -n ${NAMESPACE}"
-echo "  URL: http://localhost:8080/admin  (admin / admin)"
-echo ""
-echo "Note: Running in dev mode (H2 in-memory DB). For production, configure externalDatabase."
-
-# ── Pod status ────────────────────────────────────────────────────────────────
-echo ""
-echo "==> Pod status in namespace '$NAMESPACE':"
-kubectl get pods -n "$NAMESPACE"
+echo "Run ./install-keycloak-minikube.sh to install."

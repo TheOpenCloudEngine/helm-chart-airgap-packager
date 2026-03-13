@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Load PostgreSQL 17 0.27.1 airgap bundle images into minikube and install
+# Load CloudNativePG operator 1.28.1 airgap bundle images into minikube
+# (Run install-postgresql-minikube.sh to install after loading)
 #
 # Usage:
 #   ./load-postgresql-minikube.sh
@@ -9,7 +10,7 @@
 #   - helm CLI installed
 #   - Bundle created by pack-postgresql.sh
 #
-# Note: This installs the PostgreSQL.
+# Note: This installs the CloudNativePG operator.
 #       After installation, create a PostgreSQL cluster with a Cluster CRD, e.g.:
 #         kubectl apply -f - <<EOF
 #         apiVersion: postgresql.cnpg.io/v1
@@ -27,8 +28,6 @@ set -euo pipefail
 . "$(dirname "$0")/config.sh"
 
 BUNDLE="${OUTPUT_DIR}/postgresql-17-0.27.1-airgap.tar.gz"
-RELEASE="postgresql"
-NAMESPACE="shared-apps"
 
 # ── Preflight ─────────────────────────────────────────────────────────────────
 if ! minikube status --format='{{.Host}}' 2>/dev/null | grep -q "Running"; then
@@ -63,43 +62,17 @@ for img_tar in "$IMAGES_DIR"/*.tar; do
 done
 echo "    Images loaded."
 
-# ── Locate chart ──────────────────────────────────────────────────────────────
+# ── Save chart to CHART_DIR ───────────────────────────────────────────────────
 CHART_TGZ=$(find "$CHARTS_DIR" -name "*.tgz" | head -1)
 if [ -z "$CHART_TGZ" ]; then
   echo "ERROR: No chart .tgz found in bundle"
   exit 1
 fi
 
-# ── Helm install ──────────────────────────────────────────────────────────────
-echo ""
-echo "==> Installing PostgreSQL (release: $RELEASE, namespace: $NAMESPACE)..."
-helm upgrade --install "$RELEASE" "$CHART_TGZ" \
-  --namespace "$NAMESPACE" \
-  --create-namespace \
-  --set "config.imagePullPolicy=IfNotPresent" \
-  --wait
+mkdir -p "$CHART_DIR"
+cp "$CHART_TGZ" "$CHART_DIR/"
 
 echo ""
-echo "Done! PostgreSQL '$RELEASE' deployed in namespace '$NAMESPACE'."
+echo "==> Chart saved to: $CHART_DIR/$(basename "$CHART_TGZ")"
 echo ""
-echo "Create a PostgreSQL cluster:"
-echo "  kubectl apply -f - <<EOF"
-echo "  apiVersion: postgresql.cnpg.io/v1"
-echo "  kind: Cluster"
-echo "  metadata:"
-echo "    name: my-postgres"
-echo "    namespace: default"
-echo "  spec:"
-echo "    instances: 1"
-echo "    imageName: ghcr.io/cloudnative-pg/postgresql:17"
-echo "    storage:"
-echo "      size: 1Gi"
-echo "  EOF"
-echo ""
-echo "Connect to PostgreSQL:"
-echo "  kubectl exec -it my-postgres-1 -- psql -U postgres"
-
-# ── Pod status ────────────────────────────────────────────────────────────────
-echo ""
-echo "==> Pod status in namespace '$NAMESPACE':"
-kubectl get pods -n "$NAMESPACE"
+echo "Run ./install-postgresql-minikube.sh to install."

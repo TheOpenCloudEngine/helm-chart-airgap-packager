@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Load Harbor 2.14.2 airgap bundle images into minikube and install
+# Load Harbor 2.14.2 airgap bundle images into minikube
+# (Run install-harbor-minikube.sh to install after loading)
 #
 # Usage:
 #   ./load-harbor-minikube.sh
@@ -19,9 +20,6 @@ set -euo pipefail
 . "$(dirname "$0")/config.sh"
 
 BUNDLE="${OUTPUT_DIR}/harbor-1.18.2-airgap.tar.gz"
-RELEASE="harbor"
-NAMESPACE="shared-apps"
-HARBOR_HOSTNAME="harbor.local"
 
 # ── Preflight ─────────────────────────────────────────────────────────────────
 if ! minikube status --format='{{.Host}}' 2>/dev/null | grep -q "Running"; then
@@ -64,61 +62,17 @@ for img_tar in "$IMAGES_DIR"/*.tar; do
 done
 echo "    Images loaded."
 
-# ── Locate chart ──────────────────────────────────────────────────────────────
+# ── Save chart to CHART_DIR ───────────────────────────────────────────────────
 CHART_TGZ=$(find "$CHARTS_DIR" -name "*.tgz" | head -1)
 if [ -z "$CHART_TGZ" ]; then
   echo "ERROR: No chart .tgz found in bundle"
   exit 1
 fi
 
-# ── Helm install ──────────────────────────────────────────────────────────────
-MINIKUBE_IP=$(minikube ip)
+mkdir -p "$CHART_DIR"
+cp "$CHART_TGZ" "$CHART_DIR/"
 
 echo ""
-echo "==> Installing Harbor (release: $RELEASE, namespace: $NAMESPACE)..."
-echo "    Hostname : $HARBOR_HOSTNAME (minikube IP: $MINIKUBE_IP)"
-helm upgrade --install "$RELEASE" "$CHART_TGZ" \
-  --namespace "$NAMESPACE" \
-  --create-namespace \
-  --set "expose.type=ingress" \
-  --set "expose.ingress.hosts.core=${HARBOR_HOSTNAME}" \
-  --set "expose.ingress.hosts.notary=notary.${HARBOR_HOSTNAME}" \
-  --set "externalURL=http://${HARBOR_HOSTNAME}" \
-  --set "expose.tls.enabled=false" \
-  --set "harborAdminPassword=Harbor12345" \
-  --set "nginx.image.pullPolicy=IfNotPresent" \
-  --set "portal.image.pullPolicy=IfNotPresent" \
-  --set "core.image.pullPolicy=IfNotPresent" \
-  --set "jobservice.image.pullPolicy=IfNotPresent" \
-  --set "registry.registry.image.pullPolicy=IfNotPresent" \
-  --set "registry.controller.image.pullPolicy=IfNotPresent" \
-  --set "trivy.image.pullPolicy=IfNotPresent" \
-  --set "database.internal.image.pullPolicy=IfNotPresent" \
-  --set "redis.internal.image.pullPolicy=IfNotPresent" \
-  --set "exporter.image.pullPolicy=IfNotPresent" \
-  --set "persistence.persistentVolumeClaim.registry.size=5Gi" \
-  --set "persistence.persistentVolumeClaim.jobservice.jobLog.size=1Gi" \
-  --set "persistence.persistentVolumeClaim.database.size=1Gi" \
-  --set "persistence.persistentVolumeClaim.redis.size=1Gi" \
-  --set "persistence.persistentVolumeClaim.trivy.size=2Gi" \
-  --timeout 10m \
-  --wait
-
+echo "==> Chart saved to: $CHART_DIR/$(basename "$CHART_TGZ")"
 echo ""
-echo "Done! Harbor release '$RELEASE' deployed in namespace '$NAMESPACE'."
-echo ""
-echo "==> Add the following entry to /etc/hosts:"
-echo "    ${MINIKUBE_IP}  ${HARBOR_HOSTNAME}"
-echo ""
-echo "    Or run: echo \"${MINIKUBE_IP}  ${HARBOR_HOSTNAME}\" | sudo tee -a /etc/hosts"
-echo ""
-echo "Access Harbor UI:"
-echo "  http://${HARBOR_HOSTNAME}  (admin / Harbor12345)"
-echo ""
-echo "Login via Docker CLI:"
-echo "  docker login ${HARBOR_HOSTNAME} -u admin -p Harbor12345"
-
-# ── Pod status ────────────────────────────────────────────────────────────────
-echo ""
-echo "==> Pod status in namespace '$NAMESPACE':"
-kubectl get pods -n "$NAMESPACE"
+echo "Run ./install-harbor-minikube.sh to install."

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Load Apache Airflow 3.1.7 airgap bundle images into minikube and install
+# Load Apache Airflow 3.1.7 airgap bundle images into minikube
+# (Run install-airflow-minikube.sh to install after loading)
 #
 # Usage:
 #   ./load-airflow-minikube.sh
@@ -14,8 +15,6 @@ set -euo pipefail
 . "$(dirname "$0")/config.sh"
 
 BUNDLE="${OUTPUT_DIR}/airflow-1.19.0-airgap.tar.gz"
-RELEASE="airflow"
-NAMESPACE="shared-apps"
 
 # ── Preflight ─────────────────────────────────────────────────────────────────
 if ! minikube status --format='{{.Host}}' 2>/dev/null | grep -q "Running"; then
@@ -50,34 +49,17 @@ for img_tar in "$IMAGES_DIR"/*.tar; do
 done
 echo "    Images loaded."
 
-# ── Locate chart ──────────────────────────────────────────────────────────────
+# ── Save chart to CHART_DIR ───────────────────────────────────────────────────
 CHART_TGZ=$(find "$CHARTS_DIR" -name "*.tgz" | head -1)
 if [ -z "$CHART_TGZ" ]; then
   echo "ERROR: No chart .tgz found in bundle"
   exit 1
 fi
 
-# ── Helm install ──────────────────────────────────────────────────────────────
-echo ""
-echo "==> Installing Apache Airflow (release: $RELEASE, namespace: $NAMESPACE)..."
-helm upgrade --install "$RELEASE" "$CHART_TGZ" \
-  --namespace "$NAMESPACE" \
-  --create-namespace \
-  --set "postgresql.image.repository=postgres" \
-  --set-string "postgresql.image.tag=17" \
-  --set "defaultAirflowTag=3.1.7" \
-  --set "global.imagePullPolicy=IfNotPresent" \
-  --timeout 10m \
-  --wait
+mkdir -p "$CHART_DIR"
+cp "$CHART_TGZ" "$CHART_DIR/"
 
 echo ""
-echo "Done! Airflow release '$RELEASE' deployed in namespace '$NAMESPACE'."
+echo "==> Chart saved to: $CHART_DIR/$(basename "$CHART_TGZ")"
 echo ""
-echo "Access the Airflow Web UI:"
-echo "  kubectl port-forward svc/${RELEASE}-webserver 8080:8080 -n ${NAMESPACE}"
-echo "  URL: http://localhost:8080  (admin / admin)"
-
-# ── Pod status ────────────────────────────────────────────────────────────────
-echo ""
-echo "==> Pod status in namespace '$NAMESPACE':"
-kubectl get pods -n "$NAMESPACE"
+echo "Run ./install-airflow-minikube.sh to install."

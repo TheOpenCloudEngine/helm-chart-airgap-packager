@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Load Prometheus 3.10.0 airgap bundle images into minikube and install
+# Load Prometheus 3.10.0 airgap bundle images into minikube
+# (Run install-prometheus-minikube.sh to install after loading)
 #
 # Usage:
 #   ./load-prometheus-minikube.sh
@@ -14,8 +15,6 @@ set -euo pipefail
 . "$(dirname "$0")/config.sh"
 
 BUNDLE="${OUTPUT_DIR}/prometheus-28.13.0-airgap.tar.gz"
-RELEASE="prometheus"
-NAMESPACE="shared-apps"
 
 # ── Preflight ─────────────────────────────────────────────────────────────────
 if ! minikube status --format='{{.Host}}' 2>/dev/null | grep -q "Running"; then
@@ -50,40 +49,17 @@ for img_tar in "$IMAGES_DIR"/*.tar; do
 done
 echo "    Images loaded."
 
-# ── Locate chart ──────────────────────────────────────────────────────────────
+# ── Save chart to CHART_DIR ───────────────────────────────────────────────────
 CHART_TGZ=$(find "$CHARTS_DIR" -name "*.tgz" | head -1)
 if [ -z "$CHART_TGZ" ]; then
   echo "ERROR: No chart .tgz found in bundle"
   exit 1
 fi
 
-# ── Helm install ──────────────────────────────────────────────────────────────
-echo ""
-echo "==> Installing Prometheus (release: $RELEASE, namespace: $NAMESPACE)..."
-helm upgrade --install "$RELEASE" "$CHART_TGZ" \
-  --namespace "$NAMESPACE" \
-  --create-namespace \
-  --set "server.image.pullPolicy=IfNotPresent" \
-  --set "alertmanager.image.pullPolicy=IfNotPresent" \
-  --set "kube-state-metrics.image.pullPolicy=IfNotPresent" \
-  --set "prometheus-node-exporter.image.pullPolicy=IfNotPresent" \
-  --set "prometheus-pushgateway.image.pullPolicy=IfNotPresent" \
-  --set "server.persistentVolume.enabled=false" \
-  --set "alertmanager.persistence.enabled=false" \
-  --wait
+mkdir -p "$CHART_DIR"
+cp "$CHART_TGZ" "$CHART_DIR/"
 
 echo ""
-echo "Done! Prometheus release '$RELEASE' deployed in namespace '$NAMESPACE'."
+echo "==> Chart saved to: $CHART_DIR/$(basename "$CHART_TGZ")"
 echo ""
-echo "Access Prometheus UI:"
-echo "  kubectl port-forward svc/${RELEASE}-server 9090:80 -n ${NAMESPACE}"
-echo "  URL: http://localhost:9090"
-echo ""
-echo "Access Alertmanager UI:"
-echo "  kubectl port-forward svc/${RELEASE}-alertmanager 9093:9093 -n ${NAMESPACE}"
-echo "  URL: http://localhost:9093"
-
-# ── Pod status ────────────────────────────────────────────────────────────────
-echo ""
-echo "==> Pod status in namespace '$NAMESPACE':"
-kubectl get pods -n "$NAMESPACE"
+echo "Run ./install-prometheus-minikube.sh to install."

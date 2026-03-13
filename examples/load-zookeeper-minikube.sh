@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Load Apache ZooKeeper 3.6.3 (Confluent Platform 7.3.0) airgap bundle images into minikube and install
+# Load Apache ZooKeeper 3.6.3 (Confluent Platform 7.3.0) airgap bundle images into minikube
+# (Run install-zookeeper-minikube.sh to install after loading)
 #
 # Usage:
 #   ./load-zookeeper-minikube.sh
@@ -14,8 +15,6 @@ set -euo pipefail
 . "$(dirname "$0")/config.sh"
 
 BUNDLE="${OUTPUT_DIR}/zookeeper-0.2.0-airgap.tar.gz"
-RELEASE="zookeeper"
-NAMESPACE="shared-apps"
 
 # ── Preflight ─────────────────────────────────────────────────────────────────
 if ! minikube status --format='{{.Host}}' 2>/dev/null | grep -q "Running"; then
@@ -50,31 +49,17 @@ for img_tar in "$IMAGES_DIR"/*.tar; do
 done
 echo "    Images loaded."
 
-# ── Locate chart ──────────────────────────────────────────────────────────────
+# ── Save chart to CHART_DIR ───────────────────────────────────────────────────
 CHART_TGZ=$(find "$CHARTS_DIR" -name "*.tgz" | head -1)
 if [ -z "$CHART_TGZ" ]; then
   echo "ERROR: No chart .tgz found in bundle"
   exit 1
 fi
 
-# ── Helm install ──────────────────────────────────────────────────────────────
-echo ""
-echo "==> Installing ZooKeeper (release: $RELEASE, namespace: $NAMESPACE)..."
-helm upgrade --install "$RELEASE" "$CHART_TGZ" \
-  --namespace "$NAMESPACE" \
-  --create-namespace \
-  --set "imagePullPolicy=IfNotPresent" \
-  --set "replicaCount=1" \
-  --wait
+mkdir -p "$CHART_DIR"
+cp "$CHART_TGZ" "$CHART_DIR/"
 
 echo ""
-echo "Done! ZooKeeper release '$RELEASE' deployed in namespace '$NAMESPACE'."
+echo "==> Chart saved to: $CHART_DIR/$(basename "$CHART_TGZ")"
 echo ""
-echo "Connect to ZooKeeper (zkCli):"
-echo "  kubectl exec -it ${RELEASE}-0 -n ${NAMESPACE} -- zookeeper-shell localhost:2181"
-echo "  Service endpoint: ${RELEASE}.${NAMESPACE}.svc.cluster.local:2181"
-
-# ── Pod status ────────────────────────────────────────────────────────────────
-echo ""
-echo "==> Pod status in namespace '$NAMESPACE':"
-kubectl get pods -n "$NAMESPACE"
+echo "Run ./install-zookeeper-minikube.sh to install."
