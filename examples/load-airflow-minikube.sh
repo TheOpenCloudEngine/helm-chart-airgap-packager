@@ -64,9 +64,7 @@ helm upgrade --install "$RELEASE" "$CHART_TGZ" \
   --namespace "$NAMESPACE" \
   --create-namespace \
   --set "postgresql.image.repository=postgres" \
-  --set "postgresql.image.tag=17" \
-  --set "redis.image.repository=redis" \
-  --set "redis.image.tag=7" \
+  --set-string "postgresql.image.tag=17" \
   --set "defaultAirflowTag=3.1.7" \
   --set "global.imagePullPolicy=IfNotPresent" \
   --timeout 10m \
