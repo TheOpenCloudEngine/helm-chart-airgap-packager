@@ -1,14 +1,26 @@
 #!/usr/bin/env bash
-# Install PostgreSQL Operator 1.28.1 from chart saved by load-postgresql-operator-minikube.sh
-# and create a PostgreSQL Cluster CRD instance.
+# Install CloudNativePG operator 1.28.1 from chart saved by load-postgresql-minikube.sh
 #
 # Usage:
-#   ./install-postgresql-operator-minikube.sh
+#   ./install-postgresql-minikube.sh
 #
 # Prerequisites:
 #   - minikube running (minikube start)
 #   - helm CLI installed
-#   - Images loaded by load-postgresql-operator-minikube.sh
+#   - Images loaded by load-postgresql-minikube.sh
+#
+# Note: This installs the CloudNativePG operator.
+#       After installation, create a PostgreSQL cluster with a Cluster CRD, e.g.:
+#         kubectl apply -f - <<EOF
+#         apiVersion: postgresql.cnpg.io/v1
+#         kind: Cluster
+#         metadata:
+#           name: my-postgres
+#         spec:
+#           instances: 1
+#           storage:
+#             size: 1Gi
+#         EOF
 
 set -euo pipefail
 
@@ -16,8 +28,6 @@ set -euo pipefail
 
 RELEASE="cnpg"
 NAMESPACE="shared-apps"
-PG_CLUSTER_NAME="my-postgres"
-PG_CLUSTER_NAMESPACE="shared-apps"
 
 # ── Preflight ─────────────────────────────────────────────────────────────────
 if ! minikube status --format='{{.Host}}' 2>/dev/null | grep -q "Running"; then
@@ -29,7 +39,7 @@ fi
 CHART_TGZ=$(find "$CHART_DIR" -name "cloudnative-pg-*.tgz" 2>/dev/null | sort -V | tail -1)
 if [ -z "$CHART_TGZ" ]; then
   echo "ERROR: No cloudnative-pg chart .tgz found in $CHART_DIR"
-  echo "       Run load-postgresql-operator-minikube.sh first."
+  echo "       Run load-postgresql-minikube.sh first."
   exit 1
 fi
 
@@ -46,35 +56,23 @@ helm upgrade --install "$RELEASE" "$CHART_TGZ" \
 
 echo ""
 echo "Done! CloudNativePG operator '$RELEASE' deployed in namespace '$NAMESPACE'."
-
-# ── Create PostgreSQL Cluster CRD ─────────────────────────────────────────────
 echo ""
-echo "==> Creating PostgreSQL Cluster: $PG_CLUSTER_NAME (namespace: $PG_CLUSTER_NAMESPACE)..."
-kubectl apply -f - <<EOF
-apiVersion: postgresql.cnpg.io/v1
-kind: Cluster
-metadata:
-  name: ${PG_CLUSTER_NAME}
-  namespace: ${PG_CLUSTER_NAMESPACE}
-spec:
-  instances: 1
-  imageName: ghcr.io/cloudnative-pg/postgresql:17
-  storage:
-    size: 1Gi
-EOF
-
-echo ""
-echo "==> Waiting for PostgreSQL cluster to be ready..."
-kubectl wait --for=condition=Ready \
-  cluster.postgresql.cnpg.io/${PG_CLUSTER_NAME} \
-  -n "${PG_CLUSTER_NAMESPACE}" \
-  --timeout=300s
-
-echo ""
-echo "Done! PostgreSQL cluster '${PG_CLUSTER_NAME}' is ready."
+echo "Create a PostgreSQL cluster:"
+echo "  kubectl apply -f - <<EOF"
+echo "  apiVersion: postgresql.cnpg.io/v1"
+echo "  kind: Cluster"
+echo "  metadata:"
+echo "    name: my-postgres"
+echo "    namespace: default"
+echo "  spec:"
+echo "    instances: 1"
+echo "    imageName: ghcr.io/cloudnative-pg/postgresql:17"
+echo "    storage:"
+echo "      size: 1Gi"
+echo "  EOF"
 echo ""
 echo "Connect to PostgreSQL:"
-echo "  kubectl exec -it ${PG_CLUSTER_NAME}-1 -n ${PG_CLUSTER_NAMESPACE} -- psql -U postgres"
+echo "  kubectl exec -it my-postgres-1 -- psql -U postgres"
 
 # ── Pod status ────────────────────────────────────────────────────────────────
 echo ""

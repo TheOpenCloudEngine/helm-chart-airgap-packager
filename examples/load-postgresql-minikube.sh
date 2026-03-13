@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-# Load PostgreSQL Operator 1.28.1 airgap bundle images into minikube
-# (Run install-postgresql-operator-minikube.sh to install after loading)
+# Load CloudNativePG operator 1.28.1 airgap bundle images into minikube
+# (Run install-postgresql-minikube.sh to install after loading)
 #
 # Usage:
-#   ./load-postgresql-operator-minikube.sh
+#   ./load-postgresql-minikube.sh
 #
 # Prerequisites:
 #   - minikube running (minikube start)
 #   - helm CLI installed
-#   - Bundle created by pack-postgresql-operator.sh
+#   - Bundle created by pack-postgresql.sh
 
 set -euo pipefail
 
@@ -24,7 +24,7 @@ fi
 
 if [ ! -f "$BUNDLE" ]; then
   echo "ERROR: Bundle not found: $BUNDLE"
-  echo "       Run pack-postgresql-operator.sh first."
+  echo "       Run pack-postgresql.sh first."
   exit 1
 fi
 
@@ -62,4 +62,4 @@ cp "$CHART_TGZ" "$CHART_DIR/"
 echo ""
 echo "==> Chart saved to: $CHART_DIR/$(basename "$CHART_TGZ")"
 echo ""
-echo "Run ./install-postgresql-operator-minikube.sh to install."
+echo "Run ./install-postgresql-minikube.sh to install."
