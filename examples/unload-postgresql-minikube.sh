@@ -8,7 +8,7 @@ set -euo pipefail
 
 . "$(dirname "$0")/config.sh"
 
-RELEASE="cnpg"
+RELEASE="postgresql"
 NAMESPACE="shared-apps"
 
 # ── Preflight ─────────────────────────────────────────────────────────────────
@@ -18,7 +18,7 @@ if ! minikube status --format='{{.Host}}' 2>/dev/null | grep -q "Running"; then
 fi
 
 # ── Helm uninstall ─────────────────────────────────────────────────────────────
-echo "==> Uninstalling CloudNativePG operator (release: $RELEASE, namespace: $NAMESPACE)..."
+echo "==> Uninstalling PostgreSQL (release: $RELEASE, namespace: $NAMESPACE)..."
 if helm status "$RELEASE" -n "$NAMESPACE" &>/dev/null; then
   helm uninstall "$RELEASE" -n "$NAMESPACE"
   echo "    Release '$RELEASE' uninstalled."
@@ -32,7 +32,7 @@ echo "==> Deleting namespace: $NAMESPACE..."
 kubectl delete namespace "$NAMESPACE" --ignore-not-found
 
 echo ""
-echo "Done! CloudNativePG operator removed from minikube."
+echo "Done! PostgreSQL removed from minikube."
 echo ""
 echo "Note: Cluster CRDs and any Cluster resources in other namespaces are NOT removed."
 echo "      To delete them: kubectl delete clusters.postgresql.cnpg.io --all -A"
