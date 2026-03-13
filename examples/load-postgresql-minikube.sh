@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Load CloudNativePG operator 1.28.1 airgap bundle images into minikube and install
+# Load PostgreSQL 17 0.27.1 airgap bundle images into minikube and install
 #
 # Usage:
 #   ./load-postgresql-minikube.sh
@@ -9,7 +9,7 @@
 #   - helm CLI installed
 #   - Bundle created by pack-postgresql.sh
 #
-# Note: This installs the CloudNativePG operator.
+# Note: This installs the PostgreSQL.
 #       After installation, create a PostgreSQL cluster with a Cluster CRD, e.g.:
 #         kubectl apply -f - <<EOF
 #         apiVersion: postgresql.cnpg.io/v1
