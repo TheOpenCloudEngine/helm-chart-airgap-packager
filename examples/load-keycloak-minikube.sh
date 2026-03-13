@@ -80,3 +80,8 @@ echo "  kubectl port-forward svc/${RELEASE}-http 8080:80 -n ${NAMESPACE}"
 echo "  URL: http://localhost:8080/admin  (admin / admin)"
 echo ""
 echo "Note: Running in dev mode (H2 in-memory DB). For production, configure externalDatabase."
+
+# ── Pod status ────────────────────────────────────────────────────────────────
+echo ""
+echo "==> Pod status in namespace '$NAMESPACE':"
+kubectl get pods -n "$NAMESPACE"

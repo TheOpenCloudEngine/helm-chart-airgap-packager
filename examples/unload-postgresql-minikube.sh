@@ -36,3 +36,8 @@ echo "Done! CloudNativePG operator removed from minikube."
 echo ""
 echo "Note: Cluster CRDs and any Cluster resources in other namespaces are NOT removed."
 echo "      To delete them: kubectl delete clusters.postgresql.cnpg.io --all -A"
+
+# ── Verify removal ────────────────────────────────────────────────────────────
+echo ""
+echo "==> Verifying removal (namespace '$NAMESPACE' should not exist):"
+kubectl get pods -n "$NAMESPACE" 2>/dev/null || echo "    Namespace '$NAMESPACE' successfully removed."

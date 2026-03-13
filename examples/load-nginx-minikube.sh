@@ -80,3 +80,8 @@ echo "  minikube service ${RELEASE}-controller -n ${NAMESPACE} --url"
 echo ""
 echo "Enable minikube ingress addon (alternative):"
 echo "  minikube addons enable ingress"
+
+# ── Pod status ────────────────────────────────────────────────────────────────
+echo ""
+echo "==> Pod status in namespace '$NAMESPACE':"
+kubectl get pods -n "$NAMESPACE"

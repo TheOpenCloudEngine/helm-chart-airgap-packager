@@ -98,3 +98,8 @@ echo "  EOF"
 echo ""
 echo "Connect to PostgreSQL:"
 echo "  kubectl exec -it my-postgres-1 -- psql -U postgres"
+
+# ── Pod status ────────────────────────────────────────────────────────────────
+echo ""
+echo "==> Pod status in namespace '$NAMESPACE':"
+kubectl get pods -n "$NAMESPACE"

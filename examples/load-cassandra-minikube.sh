@@ -96,3 +96,8 @@ echo "  EOF"
 echo ""
 echo "Connect to Cassandra (cqlsh):"
 echo "  kubectl exec -it my-cassandra-dc1-default-sts-0 -n default -- cqlsh"
+
+# ── Pod status ────────────────────────────────────────────────────────────────
+echo ""
+echo "==> Pod status in namespace '$NAMESPACE':"
+kubectl get pods -n "$NAMESPACE"

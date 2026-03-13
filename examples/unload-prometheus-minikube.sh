@@ -33,3 +33,8 @@ kubectl delete namespace "$NAMESPACE" --ignore-not-found
 
 echo ""
 echo "Done! Prometheus removed from minikube."
+
+# ── Verify removal ────────────────────────────────────────────────────────────
+echo ""
+echo "==> Verifying removal (namespace '$NAMESPACE' should not exist):"
+kubectl get pods -n "$NAMESPACE" 2>/dev/null || echo "    Namespace '$NAMESPACE' successfully removed."

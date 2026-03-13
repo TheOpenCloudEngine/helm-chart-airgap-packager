@@ -36,3 +36,8 @@ echo "Done! MariaDB Operator removed from minikube."
 echo ""
 echo "Note: MariaDB CRD instances in other namespaces are NOT removed."
 echo "      To delete them: kubectl delete mariadbs.k8s.mariadb.com --all -A"
+
+# ── Verify removal ────────────────────────────────────────────────────────────
+echo ""
+echo "==> Verifying removal (namespace '$NAMESPACE' should not exist):"
+kubectl get pods -n "$NAMESPACE" 2>/dev/null || echo "    Namespace '$NAMESPACE' successfully removed."

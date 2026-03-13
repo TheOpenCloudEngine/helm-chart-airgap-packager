@@ -82,3 +82,8 @@ echo ""
 echo "Access Alertmanager UI:"
 echo "  kubectl port-forward svc/${RELEASE}-alertmanager 9093:9093 -n ${NAMESPACE}"
 echo "  URL: http://localhost:9093"
+
+# ── Pod status ────────────────────────────────────────────────────────────────
+echo ""
+echo "==> Pod status in namespace '$NAMESPACE':"
+kubectl get pods -n "$NAMESPACE"

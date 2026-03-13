@@ -76,3 +76,8 @@ echo ""
 echo "Access the Airflow Web UI:"
 echo "  kubectl port-forward svc/${RELEASE}-webserver 8080:8080 -n ${NAMESPACE}"
 echo "  URL: http://localhost:8080  (admin / admin)"
+
+# ── Pod status ────────────────────────────────────────────────────────────────
+echo ""
+echo "==> Pod status in namespace '$NAMESPACE':"
+kubectl get pods -n "$NAMESPACE"

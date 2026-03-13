@@ -117,3 +117,8 @@ echo "  http://${HARBOR_HOSTNAME}  (admin / Harbor12345)"
 echo ""
 echo "Login via Docker CLI:"
 echo "  docker login ${HARBOR_HOSTNAME} -u admin -p Harbor12345"
+
+# ── Pod status ────────────────────────────────────────────────────────────────
+echo ""
+echo "==> Pod status in namespace '$NAMESPACE':"
+kubectl get pods -n "$NAMESPACE"

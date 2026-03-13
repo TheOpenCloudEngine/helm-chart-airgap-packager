@@ -44,3 +44,8 @@ echo "Done! Harbor removed from minikube."
 echo ""
 echo "==> Remove the /etc/hosts entry if it was added:"
 echo "    sudo sed -i '/${HARBOR_HOSTNAME}/d' /etc/hosts"
+
+# ── Verify removal ────────────────────────────────────────────────────────────
+echo ""
+echo "==> Verifying removal (namespace '$NAMESPACE' should not exist):"
+kubectl get pods -n "$NAMESPACE" 2>/dev/null || echo "    Namespace '$NAMESPACE' successfully removed."

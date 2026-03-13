@@ -36,3 +36,8 @@ echo "Done! K8ssandra Operator removed from minikube."
 echo ""
 echo "Note: K8ssandraCluster CRD instances in other namespaces are NOT removed."
 echo "      To delete them: kubectl delete k8ssandraclusters.k8ssandra.io --all -A"
+
+# ── Verify removal ────────────────────────────────────────────────────────────
+echo ""
+echo "==> Verifying removal (namespace '$NAMESPACE' should not exist):"
+kubectl get pods -n "$NAMESPACE" 2>/dev/null || echo "    Namespace '$NAMESPACE' successfully removed."

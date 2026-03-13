@@ -105,3 +105,8 @@ echo "  EOF"
 echo ""
 echo "Connect to MariaDB:"
 echo "  kubectl exec -it my-mariadb-0 -- mariadb -u root -p"
+
+# ── Pod status ────────────────────────────────────────────────────────────────
+echo ""
+echo "==> Pod status in namespace '$NAMESPACE':"
+kubectl get pods -n "$NAMESPACE"

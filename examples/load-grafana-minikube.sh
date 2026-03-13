@@ -74,3 +74,8 @@ echo ""
 echo "Access Grafana UI:"
 echo "  kubectl port-forward svc/${RELEASE} 3000:80 -n ${NAMESPACE}"
 echo "  URL: http://localhost:3000  (admin / changeme)"
+
+# ── Pod status ────────────────────────────────────────────────────────────────
+echo ""
+echo "==> Pod status in namespace '$NAMESPACE':"
+kubectl get pods -n "$NAMESPACE"

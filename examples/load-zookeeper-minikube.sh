@@ -73,3 +73,8 @@ echo ""
 echo "Connect to ZooKeeper (zkCli):"
 echo "  kubectl exec -it ${RELEASE}-0 -n ${NAMESPACE} -- zookeeper-shell localhost:2181"
 echo "  Service endpoint: ${RELEASE}.${NAMESPACE}.svc.cluster.local:2181"
+
+# ── Pod status ────────────────────────────────────────────────────────────────
+echo ""
+echo "==> Pod status in namespace '$NAMESPACE':"
+kubectl get pods -n "$NAMESPACE"
