@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Install CloudNativePG operator 1.28.1 from chart saved by load-postgresql-operator-minikube.sh
+# Install PostgreSQL Operator 1.28.1 from chart saved by load-postgresql-operator-minikube.sh
 # and create a PostgreSQL Cluster CRD instance.
 #
 # Usage:
