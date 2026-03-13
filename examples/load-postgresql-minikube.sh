@@ -27,7 +27,7 @@ set -euo pipefail
 . "$(dirname "$0")/config.sh"
 
 BUNDLE="${OUTPUT_DIR}/postgresql-17-0.27.1-airgap.tar.gz"
-RELEASE="cnpg"
+RELEASE="postgresql"
 NAMESPACE="shared-apps"
 
 # ── Preflight ─────────────────────────────────────────────────────────────────
@@ -72,7 +72,7 @@ fi
 
 # ── Helm install ──────────────────────────────────────────────────────────────
 echo ""
-echo "==> Installing CloudNativePG operator (release: $RELEASE, namespace: $NAMESPACE)..."
+echo "==> Installing PostgreSQL (release: $RELEASE, namespace: $NAMESPACE)..."
 helm upgrade --install "$RELEASE" "$CHART_TGZ" \
   --namespace "$NAMESPACE" \
   --create-namespace \
@@ -80,7 +80,7 @@ helm upgrade --install "$RELEASE" "$CHART_TGZ" \
   --wait
 
 echo ""
-echo "Done! CloudNativePG operator '$RELEASE' deployed in namespace '$NAMESPACE'."
+echo "Done! PostgreSQL '$RELEASE' deployed in namespace '$NAMESPACE'."
 echo ""
 echo "Create a PostgreSQL cluster:"
 echo "  kubectl apply -f - <<EOF"
