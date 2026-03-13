@@ -6,7 +6,8 @@
 #   helm pull apache-airflow/airflow --version 1.19.0
 #
 # Note: The official Apache Airflow chart uses PostgreSQL and Redis as subcharts.
-#       Override subchart images to use official Docker Hub images instead of defaults:
+#       Their default values reference old bitnami/debian-11 images that are no longer
+#       available on Docker Hub. We exclude bitnami images and use official ones instead:
 #         postgresql.image.repository=postgres, postgresql.image.tag=17
 #         redis.image.repository=redis, redis.image.tag=7
 #
@@ -35,6 +36,7 @@ helm-airgap pack airflow \
   --include-image apache/airflow:3.1.7 \
   --include-image postgres:17 \
   --include-image redis:7 \
+  --exclude-image bitnami \
   -o "$BUNDLE" \
   -v
 
