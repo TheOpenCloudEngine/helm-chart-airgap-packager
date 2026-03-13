@@ -15,7 +15,7 @@
 
 . "$(dirname "$0")/config.sh"
 
-BUNDLE="${OUTPUT_DIR}/cloudnative-pg-0.27.1-airgap.tar.gz"
+BUNDLE="${OUTPUT_DIR}/postgresql-0.27.1-airgap.tar.gz"
 
 mkdir -p "$OUTPUT_DIR"
 
@@ -23,8 +23,8 @@ echo "==> If image pull fails, run manually:"
 echo "  docker pull ghcr.io/cloudnative-pg/cloudnative-pg:1.28.1"
 echo "  docker pull ghcr.io/cloudnative-pg/postgresql:17"
 echo ""
-echo "==> Packing CloudNativePG operator 1.28.1 (chart 0.27.1)..."
-helm-airgap pack cloudnative-pg \
+echo "==> Packing PostgreSQL 17 (chart 0.27.1)..."
+helm-airgap pack postgresql \
   --repo-url https://cloudnative-pg.github.io/charts \
   --repo-name opencloudengine \
   --chart-version 0.27.1 \
