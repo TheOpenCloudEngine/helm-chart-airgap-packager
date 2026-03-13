@@ -17,7 +17,7 @@ echo "==> Bundle contents:"
 helm-airgap inspect "$BUNDLE"
 
 echo ""
-echo "==> Installing PostgreSQL..."
+echo "==> Installing PostgreSQL Operator..."
 helm-airgap install "$BUNDLE" "$RELEASE" \
   --namespace "$NAMESPACE" \
   --registry "$REGISTRY" \
@@ -28,7 +28,7 @@ helm-airgap install "$BUNDLE" "$RELEASE" \
   -v
 
 echo ""
-echo "Done! PostgreSQL release '$RELEASE' deployed in namespace '$NAMESPACE'."
+echo "Done! PostgreSQL Operator release '$RELEASE' deployed in namespace '$NAMESPACE'."
 echo ""
 echo "Connect to PostgreSQL:"
 echo "  kubectl exec -it ${RELEASE}-0 -n ${NAMESPACE} -- psql -U postgres"
