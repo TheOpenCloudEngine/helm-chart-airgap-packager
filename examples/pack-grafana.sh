@@ -1,28 +1,31 @@
 #!/usr/bin/env bash
-# Example: Pack Grafana 12.1.1 (Bitnami chart 12.1.8, OCI) for airgap deployment
+# Example: Pack Grafana 12.4.1 (grafana/grafana chart 11.3.2) for airgap deployment
 #
 # Source command:
-#   helm pull oci://registry-1.docker.io/bitnamicharts/grafana --version 12.1.8
-#
-# Note: This chart is distributed via OCI registry, not a traditional Helm repo.
+#   helm repo add grafana https://grafana.github.io/helm-charts
+#   helm pull grafana/grafana --version 11.3.2
 #
 # Prerequisites:
-#   - helm CLI installed (v3.8+ required for OCI support)
+#   - helm CLI installed
 #   - docker or podman installed and running
 
-source "$(dirname "$0")/config.sh"
+. "$(dirname "$0")/config.sh"
 
-BUNDLE="${OUTPUT_DIR}/grafana-12.1.8-airgap.tar.gz"
+BUNDLE="${OUTPUT_DIR}/grafana-11.3.2-airgap.tar.gz"
 
 mkdir -p "$OUTPUT_DIR"
 
-echo "==> Packing Grafana 12.1.1 (chart 12.1.8, OCI)..."
-helm-airgap pack oci://registry-1.docker.io/bitnamicharts/grafana \
-  --chart-version 12.1.8 \
+echo "==> If image pull fails, run manually:"
+echo "  docker pull grafana/grafana:12.4.1"
+echo ""
+echo "==> Packing Grafana 12.4.1 (chart 11.3.2)..."
+helm-airgap pack grafana \
+  --repo-url https://grafana.github.io/helm-charts \
+  --repo-name grafana \
+  --chart-version 11.3.2 \
   --chart-dir "$CHART_DIR" \
-  --images-dir "$IMAGES_DIR" \
-  --include-image bitnami/grafana:12.1.1 \
-  --include-image bitnami/os-shell:12 \
+  --images-dir "$IMAGES_DIR/grafana-11.3.2" \
+  --include-image grafana/grafana:12.4.1 \
   -o "$BUNDLE" \
   -v
 

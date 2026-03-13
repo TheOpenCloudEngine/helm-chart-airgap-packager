@@ -9,15 +9,15 @@
 
 source "$(dirname "$0")/config.sh"
 
-BUNDLE="${OUTPUT_DIR}/postgresql-15.5.38-airgap.tar.gz"
+BUNDLE="${OUTPUT_DIR}/postgresql-17-0.27.1-airgap.tar.gz"
 RELEASE="postgresql"
-NAMESPACE="database"
+NAMESPACE="shared-apps"
 
 echo "==> Bundle contents:"
 helm-airgap inspect "$BUNDLE"
 
 echo ""
-echo "==> Installing PostgreSQL..."
+echo "==> Installing PostgreSQL Operator..."
 helm-airgap install "$BUNDLE" "$RELEASE" \
   --namespace "$NAMESPACE" \
   --registry "$REGISTRY" \
@@ -28,7 +28,7 @@ helm-airgap install "$BUNDLE" "$RELEASE" \
   -v
 
 echo ""
-echo "Done! PostgreSQL release '$RELEASE' deployed in namespace '$NAMESPACE'."
+echo "Done! PostgreSQL Operator release '$RELEASE' deployed in namespace '$NAMESPACE'."
 echo ""
 echo "Connect to PostgreSQL:"
 echo "  kubectl exec -it ${RELEASE}-0 -n ${NAMESPACE} -- psql -U postgres"

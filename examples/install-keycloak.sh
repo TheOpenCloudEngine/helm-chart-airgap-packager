@@ -11,7 +11,7 @@ source "$(dirname "$0")/config.sh"
 
 BUNDLE="${OUTPUT_DIR}/keycloak-25.2.0-airgap.tar.gz"
 RELEASE="keycloak"
-NAMESPACE="keycloak"
+NAMESPACE="shared-apps"
 
 echo "==> Bundle contents:"
 helm-airgap inspect "$BUNDLE"

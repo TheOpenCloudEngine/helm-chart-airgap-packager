@@ -11,7 +11,7 @@ source "$(dirname "$0")/config.sh"
 
 BUNDLE="${OUTPUT_DIR}/mariadb-11.5.7-airgap.tar.gz"
 RELEASE="mariadb"
-NAMESPACE="database"
+NAMESPACE="shared-apps"
 
 echo "==> Bundle contents:"
 helm-airgap inspect "$BUNDLE"

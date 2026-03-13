@@ -17,19 +17,26 @@
 #   - helm CLI installed
 #   - docker or podman installed and running
 
-source "$(dirname "$0")/config.sh"
+. "$(dirname "$0")/config.sh"
 
 BUNDLE="${OUTPUT_DIR}/prometheus-28.13.0-airgap.tar.gz"
 
 mkdir -p "$OUTPUT_DIR"
 
+echo "==> If image pull fails, run manually:"
+echo "  docker pull quay.io/prometheus/prometheus:v3.10.0"
+echo "  docker pull quay.io/prometheus/alertmanager:v0.28.1"
+echo "  docker pull quay.io/prometheus/node-exporter:v1.9.1"
+echo "  docker pull registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.15.0"
+echo "  docker pull quay.io/prometheus/pushgateway:v1.11.0"
+echo ""
 echo "==> Packing Prometheus 3.10.0 (chart 28.13.0)..."
 helm-airgap pack prometheus \
   --repo-url https://prometheus-community.github.io/helm-charts \
   --repo-name prometheus-community \
   --chart-version 28.13.0 \
   --chart-dir "$CHART_DIR" \
-  --images-dir "$IMAGES_DIR" \
+  --images-dir "$IMAGES_DIR/prometheus-28.13.0" \
   --include-image quay.io/prometheus/prometheus:v3.10.0 \
   --include-image quay.io/prometheus/alertmanager:v0.28.1 \
   --include-image quay.io/prometheus/node-exporter:v1.9.1 \
