@@ -21,12 +21,16 @@
 #           storage:
 #             size: 1Gi
 #         EOF
+#         kubectl get pods -n shared-apps -w
+#         kubectl get pods -n shared-apps
+#         kubectl exec -it my-postgres-1 -n shared-apps -- psql -U postgres
+
 
 set -euo pipefail
 
 . "$(dirname "$0")/config.sh"
 
-RELEASE="cnpg"
+RELEASE="postgresql"
 NAMESPACE="shared-apps"
 
 # ── Preflight ─────────────────────────────────────────────────────────────────
