@@ -24,7 +24,7 @@ echo ""
 echo "==> Packing Apache ZooKeeper 3.6.3 / Confluent Platform 7.3.0 (chart 0.2.0)..."
 helm-airgap pack zookeeper \
   --repo-url https://ricardo-aires.github.io/helm-charts/ \
-  --repo-name opencloudengine \
+  --repo-name rhcharts \
   --chart-version 0.2.0 \
   --chart-dir "$CHART_DIR" \
   --images-dir "$IMAGES_DIR/zookeeper-0.2.0" \

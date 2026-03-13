@@ -43,7 +43,7 @@ echo ""
 echo "==> Packing Harbor 2.14.2 (chart 1.18.2)..."
 helm-airgap pack harbor \
   --repo-url https://helm.goharbor.io \
-  --repo-name opencloudengine \
+  --repo-name harbor \
   --chart-version 1.18.2 \
   --chart-dir "$CHART_DIR" \
   --images-dir "$IMAGES_DIR/harbor-1.18.2" \

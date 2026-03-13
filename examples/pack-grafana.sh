@@ -21,7 +21,7 @@ echo ""
 echo "==> Packing Grafana 12.4.1 (chart 11.3.2)..."
 helm-airgap pack grafana \
   --repo-url https://grafana.github.io/helm-charts \
-  --repo-name opencloudengine \
+  --repo-name grafana \
   --chart-version 11.3.2 \
   --chart-dir "$CHART_DIR" \
   --images-dir "$IMAGES_DIR/grafana-11.3.2" \

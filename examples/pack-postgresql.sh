@@ -26,7 +26,7 @@ echo ""
 echo "==> Packing PostgreSQL 17 (chart 0.27.1)..."
 helm-airgap pack postgresql \
   --repo-url https://cloudnative-pg.github.io/charts \
-  --repo-name opencloudengine \
+  --repo-name cnpg \
   --chart-version 0.27.1 \
   --chart-dir "$CHART_DIR" \
   --images-dir "$IMAGES_DIR/cloudnative-pg-0.27.1" \
