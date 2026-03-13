@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Load CloudNativePG operator 1.28.1 airgap bundle images into minikube
+# Load PostgreSQL Operator 1.28.1 airgap bundle images into minikube
 # (Run install-postgresql-operator-minikube.sh to install after loading)
 #
 # Usage:
