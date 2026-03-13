@@ -20,7 +20,7 @@ set -euo pipefail
 
 BUNDLE="${OUTPUT_DIR}/harbor-1.18.2-airgap.tar.gz"
 RELEASE="harbor"
-NAMESPACE="harbor"
+NAMESPACE="shared-apps"
 HARBOR_HOSTNAME="harbor.local"
 
 # ── Preflight ─────────────────────────────────────────────────────────────────

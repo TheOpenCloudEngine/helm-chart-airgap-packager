@@ -19,7 +19,7 @@ set -euo pipefail
 
 BUNDLE="${OUTPUT_DIR}/ingress-nginx-4.15.0-airgap.tar.gz"
 RELEASE="ingress-nginx"
-NAMESPACE="ingress-nginx"
+NAMESPACE="shared-apps"
 
 # ── Preflight ─────────────────────────────────────────────────────────────────
 if ! minikube status --format='{{.Host}}' 2>/dev/null | grep -q "Running"; then

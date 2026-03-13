@@ -15,7 +15,7 @@ set -euo pipefail
 
 BUNDLE="${OUTPUT_DIR}/zookeeper-0.2.0-airgap.tar.gz"
 RELEASE="zookeeper"
-NAMESPACE="zookeeper"
+NAMESPACE="shared-apps"
 
 # ── Preflight ─────────────────────────────────────────────────────────────────
 if ! minikube status --format='{{.Host}}' 2>/dev/null | grep -q "Running"; then

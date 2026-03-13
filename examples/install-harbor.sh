@@ -12,7 +12,7 @@ source "$(dirname "$0")/config.sh"
 
 BUNDLE="${OUTPUT_DIR}/harbor-1.18.2-airgap.tar.gz"
 RELEASE="harbor"
-NAMESPACE="harbor"
+NAMESPACE="shared-apps"
 
 echo "==> Bundle contents:"
 helm-airgap inspect "$BUNDLE"

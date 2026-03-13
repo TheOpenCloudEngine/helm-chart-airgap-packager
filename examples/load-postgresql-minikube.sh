@@ -28,7 +28,7 @@ set -euo pipefail
 
 BUNDLE="${OUTPUT_DIR}/postgresql-17-0.27.1-airgap.tar.gz"
 RELEASE="cnpg"
-NAMESPACE="cnpg-system"
+NAMESPACE="shared-apps"
 
 # ── Preflight ─────────────────────────────────────────────────────────────────
 if ! minikube status --format='{{.Host}}' 2>/dev/null | grep -q "Running"; then

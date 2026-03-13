@@ -9,7 +9,7 @@ REGISTRY="myregistry.local:5000"
 # ── Namespace ─────────────────────────────────────────────────────────────────
 # Default Kubernetes namespace. Each install-*.sh overrides this with a
 # chart-specific value after sourcing this file.
-NAMESPACE="default"
+NAMESPACE="shared-apps"
 
 # ── Directories ───────────────────────────────────────────────────────────────
 # Directory where downloaded Helm chart .tgz files are saved.

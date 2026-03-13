@@ -9,7 +9,7 @@ set -euo pipefail
 . "$(dirname "$0")/config.sh"
 
 RELEASE="harbor"
-NAMESPACE="harbor"
+NAMESPACE="shared-apps"
 HARBOR_HOSTNAME="harbor.local"
 
 # ── Preflight ─────────────────────────────────────────────────────────────────

@@ -11,7 +11,7 @@ source "$(dirname "$0")/config.sh"
 
 BUNDLE="${OUTPUT_DIR}/cassandra-12.3.11-airgap.tar.gz"
 RELEASE="cassandra"
-NAMESPACE="$NAMESPACE"
+NAMESPACE="shared-apps"
 
 echo "==> Bundle contents:"
 helm-airgap inspect "$BUNDLE"

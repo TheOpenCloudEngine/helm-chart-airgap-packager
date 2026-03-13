@@ -31,7 +31,7 @@ set -euo pipefail
 
 BUNDLE="${OUTPUT_DIR}/mariadb-operator-25.10.4-airgap.tar.gz"
 RELEASE="mariadb-operator"
-NAMESPACE="mariadb-operator"
+NAMESPACE="shared-apps"
 
 # ── Preflight ─────────────────────────────────────────────────────────────────
 if ! minikube status --format='{{.Host}}' 2>/dev/null | grep -q "Running"; then

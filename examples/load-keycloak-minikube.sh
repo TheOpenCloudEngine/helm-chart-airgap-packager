@@ -19,7 +19,7 @@ set -euo pipefail
 
 BUNDLE="${OUTPUT_DIR}/keycloak-7.1.9-airgap.tar.gz"
 RELEASE="keycloak"
-NAMESPACE="keycloak"
+NAMESPACE="shared-apps"
 
 # ── Preflight ─────────────────────────────────────────────────────────────────
 if ! minikube status --format='{{.Host}}' 2>/dev/null | grep -q "Running"; then

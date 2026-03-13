@@ -15,7 +15,7 @@ set -euo pipefail
 
 BUNDLE="${OUTPUT_DIR}/prometheus-28.13.0-airgap.tar.gz"
 RELEASE="prometheus"
-NAMESPACE="prometheus"
+NAMESPACE="shared-apps"
 
 # ── Preflight ─────────────────────────────────────────────────────────────────
 if ! minikube status --format='{{.Host}}' 2>/dev/null | grep -q "Running"; then

@@ -15,7 +15,7 @@ set -euo pipefail
 
 BUNDLE="${OUTPUT_DIR}/airflow-1.19.0-airgap.tar.gz"
 RELEASE="airflow"
-NAMESPACE="airflow"
+NAMESPACE="shared-apps"
 
 # ── Preflight ─────────────────────────────────────────────────────────────────
 if ! minikube status --format='{{.Host}}' 2>/dev/null | grep -q "Running"; then

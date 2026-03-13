@@ -18,7 +18,7 @@ set -euo pipefail
 
 BUNDLE="${OUTPUT_DIR}/k8ssandra-1.29.0-airgap.tar.gz"
 RELEASE="k8ssandra-operator"
-NAMESPACE="k8ssandra-operator"
+NAMESPACE="shared-apps"
 
 # ── Preflight ─────────────────────────────────────────────────────────────────
 if ! minikube status --format='{{.Host}}' 2>/dev/null | grep -q "Running"; then

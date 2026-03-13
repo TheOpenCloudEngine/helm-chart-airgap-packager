@@ -9,7 +9,7 @@ set -euo pipefail
 . "$(dirname "$0")/config.sh"
 
 RELEASE="ingress-nginx"
-NAMESPACE="ingress-nginx"
+NAMESPACE="shared-apps"
 
 # ── Preflight ─────────────────────────────────────────────────────────────────
 if ! minikube status --format='{{.Host}}' 2>/dev/null | grep -q "Running"; then

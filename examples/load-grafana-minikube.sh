@@ -15,7 +15,7 @@ set -euo pipefail
 
 BUNDLE="${OUTPUT_DIR}/grafana-11.3.2-airgap.tar.gz"
 RELEASE="grafana"
-NAMESPACE="grafana"
+NAMESPACE="shared-apps"
 
 # ── Preflight ─────────────────────────────────────────────────────────────────
 if ! minikube status --format='{{.Host}}' 2>/dev/null | grep -q "Running"; then
