@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
-# Example: Pack PostgreSQL 16.4.0 (Bitnami chart 15.5.38) for airgap deployment
+# Example: Pack CloudNativePG operator 1.28.1 (cnpg/cloudnative-pg chart 0.27.1) for airgap deployment
 #
 # Source command:
-#   helm repo add bitnami https://charts.bitnami.com/bitnami
-#   helm pull bitnami/postgresql --version 15.5.38
+#   helm repo add cnpg https://cloudnative-pg.github.io/charts
+#   helm pull cnpg/cloudnative-pg --version 0.27.1
+#
+# Note: CloudNativePG (CNPG) is a Kubernetes operator for PostgreSQL.
+#       After deploying the operator, create a Cluster CRD to provision PostgreSQL instances.
+#       The postgresql image (ghcr.io/cloudnative-pg/postgresql:17) is used by Cluster resources.
 #
 # Prerequisites:
 #   - helm CLI installed
@@ -11,23 +15,23 @@
 
 . "$(dirname "$0")/config.sh"
 
-BUNDLE="${OUTPUT_DIR}/postgresql-15.5.38-airgap.tar.gz"
+BUNDLE="${OUTPUT_DIR}/cloudnative-pg-0.27.1-airgap.tar.gz"
 
 mkdir -p "$OUTPUT_DIR"
 
 echo "==> If image pull fails, run manually:"
-echo "  docker pull bitnami/postgresql:16.4.0"
-echo "  docker pull bitnami/os-shell:12"
+echo "  docker pull ghcr.io/cloudnative-pg/cloudnative-pg:1.28.1"
+echo "  docker pull ghcr.io/cloudnative-pg/postgresql:17"
 echo ""
-echo "==> Packing PostgreSQL 16.4.0 (chart 15.5.38)..."
-helm-airgap pack postgresql \
-  --repo-url https://charts.bitnami.com/bitnami \
-  --repo-name bitnami \
-  --chart-version 15.5.38 \
+echo "==> Packing CloudNativePG operator 1.28.1 (chart 0.27.1)..."
+helm-airgap pack cloudnative-pg \
+  --repo-url https://cloudnative-pg.github.io/charts \
+  --repo-name cnpg \
+  --chart-version 0.27.1 \
   --chart-dir "$CHART_DIR" \
-  --images-dir "$IMAGES_DIR/postgresql-15.5.38" \
-  --include-image bitnami/postgresql:16.4.0 \
-  --include-image bitnami/os-shell:12 \
+  --images-dir "$IMAGES_DIR/cloudnative-pg-0.27.1" \
+  --include-image ghcr.io/cloudnative-pg/cloudnative-pg:1.28.1 \
+  --include-image ghcr.io/cloudnative-pg/postgresql:17 \
   -o "$BUNDLE" \
   -v
 

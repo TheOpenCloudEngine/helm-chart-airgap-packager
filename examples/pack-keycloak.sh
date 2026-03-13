@@ -1,32 +1,34 @@
 #!/usr/bin/env bash
-# Example: Pack Keycloak 26.3.3 (Bitnami chart 25.2.0, OCI) for airgap deployment
+# Example: Pack Keycloak 26.5.5 (codecentric/keycloakx chart 7.1.9) for airgap deployment
 #
 # Source command:
-#   helm pull oci://registry-1.docker.io/bitnamicharts/keycloak --version 25.2.0
+#   helm repo add codecentric https://codecentric.github.io/helm-charts
+#   helm pull codecentric/keycloakx --version 7.1.9
 #
-# Note: This chart is distributed via OCI registry, not a traditional Helm repo.
+# Note: keycloakx uses the official Keycloak image from quay.io/keycloak/keycloak.
+#       An external PostgreSQL database is required (configure via values.yaml).
 #
 # Prerequisites:
-#   - helm CLI installed (v3.8+ required for OCI support)
+#   - helm CLI installed
 #   - docker or podman installed and running
 
 . "$(dirname "$0")/config.sh"
 
-BUNDLE="${OUTPUT_DIR}/keycloak-25.2.0-airgap.tar.gz"
+BUNDLE="${OUTPUT_DIR}/keycloak-7.1.9-airgap.tar.gz"
 
 mkdir -p "$OUTPUT_DIR"
 
 echo "==> If image pull fails, run manually:"
-echo "  docker pull bitnami/keycloak:26.3.3"
-echo "  docker pull bitnami/os-shell:12"
+echo "  docker pull quay.io/keycloak/keycloak:26.5.5"
 echo ""
-echo "==> Packing Keycloak 26.3.3 (chart 25.2.0, OCI)..."
-helm-airgap pack oci://registry-1.docker.io/bitnamicharts/keycloak \
-  --chart-version 25.2.0 \
+echo "==> Packing Keycloak 26.5.5 (chart 7.1.9)..."
+helm-airgap pack keycloakx \
+  --repo-url https://codecentric.github.io/helm-charts \
+  --repo-name codecentric \
+  --chart-version 7.1.9 \
   --chart-dir "$CHART_DIR" \
-  --images-dir "$IMAGES_DIR/keycloak-25.2.0" \
-  --include-image bitnami/keycloak:26.3.3 \
-  --include-image bitnami/os-shell:12 \
+  --images-dir "$IMAGES_DIR/keycloak-7.1.9" \
+  --include-image quay.io/keycloak/keycloak:26.5.5 \
   -o "$BUNDLE" \
   -v
 

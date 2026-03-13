@@ -5,6 +5,11 @@
 #   helm repo add apache-airflow https://airflow.apache.org/
 #   helm pull apache-airflow/airflow --version 1.19.0
 #
+# Note: The official Apache Airflow chart uses PostgreSQL and Redis as subcharts.
+#       Override subchart images to use official Docker Hub images instead of defaults:
+#         postgresql.image.repository=postgres, postgresql.image.tag=17
+#         redis.image.repository=redis, redis.image.tag=7
+#
 # Prerequisites:
 #   - helm CLI installed
 #   - docker or podman installed and running
@@ -17,8 +22,8 @@ mkdir -p "$OUTPUT_DIR"
 
 echo "==> If image pull fails, run manually:"
 echo "  docker pull apache/airflow:3.1.7"
-echo "  docker pull bitnami/postgresql:16.4.0"
-echo "  docker pull bitnami/redis:7.4.2"
+echo "  docker pull postgres:17"
+echo "  docker pull redis:7"
 echo ""
 echo "==> Packing Apache Airflow 3.1.7 (chart 1.19.0)..."
 helm-airgap pack airflow \
@@ -28,8 +33,8 @@ helm-airgap pack airflow \
   --chart-dir "$CHART_DIR" \
   --images-dir "$IMAGES_DIR/airflow-1.19.0" \
   --include-image apache/airflow:3.1.7 \
-  --include-image bitnami/postgresql:16.4.0 \
-  --include-image bitnami/redis:7.4.2 \
+  --include-image postgres:17 \
+  --include-image redis:7 \
   -o "$BUNDLE" \
   -v
 

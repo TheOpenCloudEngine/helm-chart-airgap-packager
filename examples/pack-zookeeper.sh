@@ -1,32 +1,34 @@
 #!/usr/bin/env bash
-# Example: Pack Apache ZooKeeper 3.9.3 (Bitnami chart 13.8.7, OCI) for airgap deployment
+# Example: Pack Apache ZooKeeper 3.6.3 via Confluent Platform 7.3.0 (rhcharts/zookeeper chart 0.2.0) for airgap deployment
 #
 # Source command:
-#   helm pull oci://registry-1.docker.io/bitnamicharts/zookeeper --version 13.8.7
+#   helm repo add rhcharts https://ricardo-aires.github.io/helm-charts/
+#   helm pull rhcharts/zookeeper --version 0.2.0
 #
-# Note: This chart is distributed via OCI registry, not a traditional Helm repo.
+# Note: This chart deploys an Apache ZooKeeper ensemble using the Confluent Platform ZooKeeper image,
+#       which is based on Apache ZooKeeper 3.6.3. Minimum 3 replicas are required for fault tolerance.
 #
 # Prerequisites:
-#   - helm CLI installed (v3.8+ required for OCI support)
+#   - helm CLI installed
 #   - docker or podman installed and running
 
 . "$(dirname "$0")/config.sh"
 
-BUNDLE="${OUTPUT_DIR}/zookeeper-13.8.7-airgap.tar.gz"
+BUNDLE="${OUTPUT_DIR}/zookeeper-0.2.0-airgap.tar.gz"
 
 mkdir -p "$OUTPUT_DIR"
 
 echo "==> If image pull fails, run manually:"
-echo "  docker pull bitnami/zookeeper:3.9.3"
-echo "  docker pull bitnami/os-shell:12"
+echo "  docker pull confluentinc/cp-zookeeper:7.3.0"
 echo ""
-echo "==> Packing Apache ZooKeeper 3.9.3 (chart 13.8.7, OCI)..."
-helm-airgap pack oci://registry-1.docker.io/bitnamicharts/zookeeper \
-  --chart-version 13.8.7 \
+echo "==> Packing Apache ZooKeeper 3.6.3 / Confluent Platform 7.3.0 (chart 0.2.0)..."
+helm-airgap pack zookeeper \
+  --repo-url https://ricardo-aires.github.io/helm-charts/ \
+  --repo-name rhcharts \
+  --chart-version 0.2.0 \
   --chart-dir "$CHART_DIR" \
-  --images-dir "$IMAGES_DIR/zookeeper-13.8.7" \
-  --include-image bitnami/zookeeper:3.9.3 \
-  --include-image bitnami/os-shell:12 \
+  --images-dir "$IMAGES_DIR/zookeeper-0.2.0" \
+  --include-image confluentinc/cp-zookeeper:7.3.0 \
   -o "$BUNDLE" \
   -v
 
