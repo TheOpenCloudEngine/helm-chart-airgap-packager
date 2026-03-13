@@ -33,7 +33,7 @@ echo ""
 echo "==> Packing Prometheus 3.10.0 (chart 28.13.0)..."
 helm-airgap pack prometheus \
   --repo-url https://prometheus-community.github.io/helm-charts \
-  --repo-name prometheus-community \
+  --repo-name opencloudengine \
   --chart-version 28.13.0 \
   --chart-dir "$CHART_DIR" \
   --images-dir "$IMAGES_DIR/prometheus-28.13.0" \

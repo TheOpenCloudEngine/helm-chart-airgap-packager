@@ -27,7 +27,7 @@ echo ""
 echo "==> Packing K8ssandra Operator 1.29.0 with Cassandra 5.0 (chart 1.29.0)..."
 helm-airgap pack k8ssandra-operator \
   --repo-url https://helm.k8ssandra.io/stable \
-  --repo-name k8ssandra \
+  --repo-name opencloudengine \
   --chart-version 1.29.0 \
   --chart-dir "$CHART_DIR" \
   --images-dir "$IMAGES_DIR/k8ssandra-1.29.0" \

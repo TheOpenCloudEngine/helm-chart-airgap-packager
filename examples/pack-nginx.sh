@@ -25,7 +25,7 @@ echo ""
 echo "==> Packing NGINX Ingress Controller 1.15.0 (chart 4.15.0)..."
 helm-airgap pack ingress-nginx \
   --repo-url https://kubernetes.github.io/ingress-nginx \
-  --repo-name ingress-nginx \
+  --repo-name opencloudengine \
   --chart-version 4.15.0 \
   --chart-dir "$CHART_DIR" \
   --images-dir "$IMAGES_DIR/ingress-nginx-4.15.0" \

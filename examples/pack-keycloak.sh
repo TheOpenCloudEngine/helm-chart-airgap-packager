@@ -24,7 +24,7 @@ echo ""
 echo "==> Packing Keycloak 26.5.5 (chart 7.1.9)..."
 helm-airgap pack keycloakx \
   --repo-url https://codecentric.github.io/helm-charts \
-  --repo-name codecentric \
+  --repo-name opencloudengine \
   --chart-version 7.1.9 \
   --chart-dir "$CHART_DIR" \
   --images-dir "$IMAGES_DIR/keycloak-7.1.9" \

@@ -29,7 +29,7 @@ echo ""
 echo "==> Packing Apache Airflow 3.1.7 (chart 1.19.0)..."
 helm-airgap pack airflow \
   --repo-url https://airflow.apache.org/ \
-  --repo-name apache-airflow \
+  --repo-name opencloudengine \
   --chart-version 1.19.0 \
   --chart-dir "$CHART_DIR" \
   --images-dir "$IMAGES_DIR/airflow-1.19.0" \

@@ -27,7 +27,7 @@ echo ""
 echo "==> Packing MariaDB Operator 25.10.4 (chart 25.10.4)..."
 helm-airgap pack mariadb-operator \
   --repo-url https://helm.mariadb.com/mariadb-operator \
-  --repo-name mariadb-operator \
+  --repo-name opencloudengine \
   --chart-version 25.10.4 \
   --chart-dir "$CHART_DIR" \
   --images-dir "$IMAGES_DIR/mariadb-operator-25.10.4" \
